@@ -8,6 +8,7 @@ from agentshield.rules.approval import (
     RequireApprovalDataExportRule,
     RequireApprovalFinancialRule,
     RequireApprovalPatternRule,
+    _extract_strings,
 )
 
 # ── RequireApprovalPatternRule ──────────────────────────────────────
@@ -141,5 +142,51 @@ class TestRequireApprovalDataExportRule:
             tool_name="export_data",
             arguments={"limit": 1000},
         )
+        result = await rule.evaluate(ctx)
+        assert result.action is PolicyAction.ALLOW
+
+    async def test_export_invalid_row_count(self, rule):
+        ctx = ToolCallContext(
+            tool_name="export_data",
+            arguments={"limit": "not-a-number"},
+        )
+        result = await rule.evaluate(ctx)
+        assert result.action is PolicyAction.ALLOW
+
+    async def test_export_no_row_keys(self, rule):
+        ctx = ToolCallContext(
+            tool_name="export_data",
+            arguments={"format": "csv"},
+        )
+        result = await rule.evaluate(ctx)
+        assert result.action is PolicyAction.ALLOW
+
+
+class TestExtractStrings:
+    def test_string_value(self):
+        assert _extract_strings("hello") == ["hello"]
+
+    def test_dict_values(self):
+        result = _extract_strings({"a": "x", "b": "y"})
+        assert "x" in result and "y" in result
+
+    def test_nested(self):
+        result = _extract_strings({"a": ["b", {"c": "d"}]})
+        assert "b" in result and "d" in result
+
+    def test_number_ignored(self):
+        assert _extract_strings(42) == []
+
+
+class TestFinancialRuleEdgeCases:
+    async def test_amount_none(self):
+        rule = RequireApprovalFinancialRule()
+        ctx = ToolCallContext(tool_name="pay", arguments={"amount": None})
+        result = await rule.evaluate(ctx)
+        assert result.action is PolicyAction.ALLOW
+
+    async def test_amount_non_numeric_string(self):
+        rule = RequireApprovalFinancialRule()
+        ctx = ToolCallContext(tool_name="pay", arguments={"amount": "free"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
