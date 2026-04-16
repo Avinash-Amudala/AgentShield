@@ -1,0 +1,3029 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="The runtime firewall for AI agents">
+      
+      
+      
+        <link rel="canonical" href="https://avinash-amudala.github.io/AgentShield/rules-reference/">
+      
+      
+        <link rel="prev" href="../configuration/">
+      
+      
+        <link rel="next" href="../owasp-mapping/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Rules Reference - AgentShield</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#rules-reference" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="AgentShield" class="md-header__button md-logo" aria-label="AgentShield" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            AgentShield
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Rules Reference
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan"  aria-label="Dark mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Dark mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="slate" data-md-color-primary="blue-grey" data-md-color-accent="cyan"  aria-label="Light mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Light mode" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Avinash-Amudala/AgentShield" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Avinash-Amudala/AgentShield
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="Tabs" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href=".." class="md-tabs__link">
+        
+  
+  
+    
+  
+  Home
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../getting-started/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Getting Started
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../configuration/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Configuration
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    <li class="md-tabs__item md-tabs__item--active">
+      <a href="./" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Rules Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../adapters/generic.md" class="md-tabs__link">
+          
+  
+  
+  Framework Adapters
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../dashboard.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Dashboard
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../owasp-mapping/" class="md-tabs__link">
+        
+  
+  
+    
+  
+  OWASP Mapping
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../eu-ai-act-mapping.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  EU AI Act Mapping
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../api-reference.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  API Reference
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../contributing.md" class="md-tabs__link">
+        
+  
+  
+    
+  
+  Contributing
+
+      </a>
+    </li>
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="AgentShield" class="md-nav__button md-logo" aria-label="AgentShield" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    AgentShield
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Avinash-Amudala/AgentShield" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Avinash-Amudala/AgentShield
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../getting-started/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Getting Started
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../configuration/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Configuration
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rules Reference
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Rules Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rule-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-1-sql-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 1: SQL Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 1: SQL Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#destructive_sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        destructive_sql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_union_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_union_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_comment_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_comment_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_batch_execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_batch_execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_admin_commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_admin_commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-2-file-system-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 2: File System Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 2: File System Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path_traversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        path_traversal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensitive_file_read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sensitive_file_read
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_outside_sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_outside_sandbox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#symlink_attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        symlink_attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executable_write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        executable_write
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-3-shell-command-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 3: Shell Command Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 3: Shell Command Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#destructive_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        destructive_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reverse_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privilege_escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        privilege_escalation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data_exfiltration_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_exfiltration_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dangerous_eval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dangerous_eval
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-4-network-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 4: Network Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 4: Network Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal_network_access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        internal_network_access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain_denylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain_denylist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain_allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain_allowlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_rebinding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dns_rebinding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-5-credential-data-leak-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 5: Credential &amp; Data Leak Prevention
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 5: Credential &amp; Data Leak Prevention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api_key_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        api_key_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        token_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pii_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pii_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        password_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_var_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        env_var_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-6-prompt-injection-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 6: Prompt Injection Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 6: Prompt Injection Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#direct_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        direct_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoded_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encoded_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role_override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        role_override
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delimiter_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delimiter_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-7-rate-limiting-resource-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 7: Rate Limiting &amp; Resource Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 7: Rate Limiting &amp; Resource Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per_tool_rate_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_tool_rate_limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session_rate_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session_rate_limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#burst_detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        burst_detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-8-scope-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 8: Scope Enforcement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 8: Scope Enforcement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool_allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tool_allowlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        argument_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross_agent_scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cross_agent_scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-9-cost-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 9: Cost Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 9: Cost Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session_cost_ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session_cost_ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost_alert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cost_alert
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-10-human-approval-gates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 10: Human Approval Gates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 10: Human Approval Gates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_financial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_financial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_data_export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_data_export
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-rules-no-python-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Rules (No Python Required)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Framework Adapters
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Framework Adapters
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/generic.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Generic
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/mcp.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    MCP
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/langchain.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    LangChain
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/crewai.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    CrewAI
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../adapters/openai.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OpenAI SDK
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../dashboard.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Dashboard
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../owasp-mapping/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    OWASP Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../eu-ai-act-mapping.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    EU AI Act Mapping
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../api-reference.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../contributing.md" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributing
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#rule-actions" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Rule Actions
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#priority-order" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Priority Order
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-1-sql-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 1: SQL Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 1: SQL Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#destructive_sql" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        destructive_sql
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_union_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_union_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_comment_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_comment_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_batch_execution" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_batch_execution
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sql_admin_commands" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sql_admin_commands
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-2-file-system-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 2: File System Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 2: File System Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#path_traversal" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        path_traversal
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sensitive_file_read" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        sensitive_file_read
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write_outside_sandbox" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        write_outside_sandbox
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#symlink_attack" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        symlink_attack
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#executable_write" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        executable_write
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-3-shell-command-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 3: Shell Command Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 3: Shell Command Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#destructive_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        destructive_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#reverse_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        reverse_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#privilege_escalation" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        privilege_escalation
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#data_exfiltration_shell" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        data_exfiltration_shell
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dangerous_eval" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dangerous_eval
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-4-network-safety" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 4: Network Safety
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 4: Network Safety">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#internal_network_access" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        internal_network_access
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain_denylist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain_denylist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#domain_allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        domain_allowlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_rebinding" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        dns_rebinding
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-5-credential-data-leak-prevention" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 5: Credential &amp; Data Leak Prevention
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 5: Credential &amp; Data Leak Prevention">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#api_key_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        api_key_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#token_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        token_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pii_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        pii_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#password_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        password_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#env_var_leak" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        env_var_leak
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-6-prompt-injection-detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 6: Prompt Injection Detection
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 6: Prompt Injection Detection">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#direct_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        direct_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#encoded_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        encoded_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#role_override" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        role_override
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#delimiter_injection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        delimiter_injection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-7-rate-limiting-resource-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 7: Rate Limiting &amp; Resource Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 7: Rate Limiting &amp; Resource Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#per_tool_rate_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        per_tool_rate_limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#session_rate_limit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session_rate_limit
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#burst_detection" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        burst_detection
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-8-scope-enforcement" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 8: Scope Enforcement
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 8: Scope Enforcement">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#tool_allowlist" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        tool_allowlist
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#argument_schema" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        argument_schema
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cross_agent_scope" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cross_agent_scope
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-9-cost-control" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 9: Cost Control
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 9: Cost Control">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#session_cost_ceiling" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        session_cost_ceiling
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cost_alert" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        cost_alert
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#category-10-human-approval-gates" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Category 10: Human Approval Gates
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Category 10: Human Approval Gates">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_pattern" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_pattern
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_financial" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_financial
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#require_approval_data_export" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        require_approval_data_export
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#custom-rules-no-python-required" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Custom Rules (No Python Required)
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="rules-reference">Rules Reference</h1>
+<p>AgentShield ships with 39 built-in rules across 10 categories, covering all OWASP ASI01–ASI10 risks. Every rule can be enabled, disabled, or configured via YAML.</p>
+<hr />
+<h2 id="rule-actions">Rule Actions</h2>
+<table>
+<thead>
+<tr>
+<th>Action</th>
+<th>Behavior</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>deny</code></td>
+<td>Block the tool call and raise <code>ToolCallBlocked</code></td>
+</tr>
+<tr>
+<td><code>escalate</code></td>
+<td>Route to a human via HITL gateway for approval</td>
+</tr>
+<tr>
+<td><code>monitor</code></td>
+<td>Allow the call but log a warning</td>
+</tr>
+<tr>
+<td><code>allow</code></td>
+<td>Explicitly allow (used in evaluation results)</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="priority-order">Priority Order</h2>
+<p>Rules are evaluated in priority order (lower number = higher priority). First <code>deny</code> or <code>escalate</code> result wins.</p>
+<table>
+<thead>
+<tr>
+<th>Priority</th>
+<th>Category</th>
+<th>Rules</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1–9</td>
+<td>Critical safety</td>
+<td>Shell commands, reverse shells</td>
+</tr>
+<tr>
+<td>10–19</td>
+<td>Data protection</td>
+<td>SQL injection, credential leak</td>
+</tr>
+<tr>
+<td>20–29</td>
+<td>Access control</td>
+<td>Scope enforcement, network blocks</td>
+</tr>
+<tr>
+<td>30–39</td>
+<td>Resource control</td>
+<td>Rate limiting, cost guard</td>
+</tr>
+<tr>
+<td>40–49</td>
+<td>Human gates</td>
+<td>Approval requirements</td>
+</tr>
+<tr>
+<td>50+</td>
+<td>Custom</td>
+<td>User-defined rules</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="category-1-sql-safety">Category 1: SQL Safety</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/sql_injection.py</code>
+<strong>OWASP:</strong> ASI02 (Tool Misuse)</p>
+<h3 id="destructive_sql"><code>destructive_sql</code></h3>
+<p>Blocks SQL operations that could cause data loss.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DROP TABLE/DATABASE/INDEX/VIEW</td>
+<td><code>\bDROP\s+(TABLE\|DATABASE\|INDEX\|VIEW)\b</code></td>
+</tr>
+<tr>
+<td>TRUNCATE TABLE</td>
+<td><code>\bTRUNCATE\s+TABLE\b</code></td>
+</tr>
+<tr>
+<td>DELETE without WHERE</td>
+<td><code>\bDELETE\s+FROM\s+\w+\s*$</code></td>
+</tr>
+<tr>
+<td>ALTER TABLE DROP</td>
+<td><code>\bALTER\s+TABLE\s+\w+\s+DROP\b</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<p><strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-0-1" name="__codelineno-0-1" href="#__codelineno-0-1"></a><span class="nt">destructive_sql</span><span class="p">:</span>
+<a id="__codelineno-0-2" name="__codelineno-0-2" href="#__codelineno-0-2"></a><span class="w">  </span><span class="nt">enabled</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<a id="__codelineno-0-3" name="__codelineno-0-3" href="#__codelineno-0-3"></a><span class="w">  </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deny</span>
+<a id="__codelineno-0-4" name="__codelineno-0-4" href="#__codelineno-0-4"></a><span class="w">  </span><span class="nt">patterns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w">        </span><span class="c1"># override detection patterns</span>
+<a id="__codelineno-0-5" name="__codelineno-0-5" href="#__codelineno-0-5"></a><span class="w">  </span><span class="nt">allow_patterns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">...</span><span class="p p-Indicator">]</span><span class="w">  </span><span class="c1"># explicit allowlist</span>
+</code></pre></div></p>
+<h3 id="sql_union_injection"><code>sql_union_injection</code></h3>
+<p>Blocks UNION-based SQL injection attempts.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNION SELECT</td>
+<td><code>\bUNION\s+(ALL\s+)?SELECT\b</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="sql_comment_injection"><code>sql_comment_injection</code></h3>
+<p>Blocks SQL comment injection used to bypass filters.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Double-dash comments</td>
+<td><code>--</code></td>
+</tr>
+<tr>
+<td>Block comments</td>
+<td><code>\/\*.*\*\/</code></td>
+</tr>
+<tr>
+<td>Hash comments</td>
+<td><code>#</code> in SQL context</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="sql_batch_execution"><code>sql_batch_execution</code></h3>
+<p>Blocks multiple SQL statements in a single call.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Statement separators</td>
+<td>Multiple <code>;</code> in a single argument</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<h3 id="sql_admin_commands"><code>sql_admin_commands</code></h3>
+<p>Blocks administrative SQL commands.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GRANT/REVOKE</td>
+<td><code>\bGRANT\b</code>, <code>\bREVOKE\b</code></td>
+</tr>
+<tr>
+<td>User management</td>
+<td><code>\bCREATE\s+USER\b</code>, <code>\bALTER\s+USER\b</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<hr />
+<h2 id="category-2-file-system-safety">Category 2: File System Safety</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/filesystem.py</code>
+<strong>OWASP:</strong> ASI02 (Tool Misuse)</p>
+<h3 id="path_traversal"><code>path_traversal</code></h3>
+<p>Blocks path traversal attempts that escape the sandbox.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Directory traversal</td>
+<td><code>../</code> sequences</td>
+</tr>
+<tr>
+<td>Absolute paths</td>
+<td>Paths outside configured sandbox directory</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="sensitive_file_read"><code>sensitive_file_read</code></h3>
+<p>Blocks access to sensitive system and credential files.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Files</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>System credentials</td>
+<td><code>/etc/passwd</code>, <code>/etc/shadow</code></td>
+</tr>
+<tr>
+<td>Environment files</td>
+<td><code>.env</code>, <code>.env.local</code></td>
+</tr>
+<tr>
+<td>Private keys</td>
+<td><code>*.pem</code>, <code>*.key</code></td>
+</tr>
+<tr>
+<td>SSH config</td>
+<td><code>~/.ssh/*</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="write_outside_sandbox"><code>write_outside_sandbox</code></h3>
+<p>Restricts file writes to a configured sandbox directory.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong> <code>sandbox_dir</code> (default: current working directory)</p>
+<h3 id="symlink_attack"><code>symlink_attack</code></h3>
+<p>Blocks creation of symlinks pointing outside the sandbox.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="executable_write"><code>executable_write</code></h3>
+<p>Detects writes of files with executable extensions.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Extensions</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Scripts</td>
+<td><code>.sh</code>, <code>.bash</code>, <code>.zsh</code></td>
+</tr>
+<tr>
+<td>Binaries</td>
+<td><code>.exe</code>, <code>.bat</code>, <code>.cmd</code></td>
+</tr>
+<tr>
+<td>Python</td>
+<td><code>.py</code> with shebang</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<hr />
+<h2 id="category-3-shell-command-safety">Category 3: Shell Command Safety</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/shell_command.py</code>
+<strong>OWASP:</strong> ASI02 (Tool Misuse)</p>
+<h3 id="destructive_shell"><code>destructive_shell</code></h3>
+<p>Blocks commands that could destroy data or systems.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Recursive delete</td>
+<td><code>rm -rf</code>, <code>rm -r /</code></td>
+</tr>
+<tr>
+<td>Disk operations</td>
+<td><code>mkfs</code>, <code>dd if=</code></td>
+</tr>
+<tr>
+<td>Fork bombs</td>
+<td><code>:(){ :\|:&amp; };:</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="reverse_shell"><code>reverse_shell</code></h3>
+<p>Blocks reverse shell payloads.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Bash reverse shell</td>
+<td><code>bash -i &gt;&amp; /dev/tcp</code></td>
+</tr>
+<tr>
+<td>Netcat</td>
+<td><code>nc -e /bin/bash</code></td>
+</tr>
+<tr>
+<td>Python sockets</td>
+<td><code>python -c "import socket"</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="privilege_escalation"><code>privilege_escalation</code></h3>
+<p>Blocks privilege escalation attempts.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Sudo</td>
+<td><code>sudo</code> commands</td>
+</tr>
+<tr>
+<td>User switching</td>
+<td><code>su -</code></td>
+</tr>
+<tr>
+<td>Permissions</td>
+<td><code>chmod 777</code>, <code>chown root</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="data_exfiltration_shell"><code>data_exfiltration_shell</code></h3>
+<p>Detects potential data exfiltration via shell commands.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>HTTP uploads</td>
+<td><code>curl</code> to external IPs</td>
+</tr>
+<tr>
+<td>File transfer</td>
+<td><code>wget</code>, <code>scp</code> to unknown hosts</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<h3 id="dangerous_eval"><code>dangerous_eval</code></h3>
+<p>Blocks dynamic code execution.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Python eval</td>
+<td><code>eval()</code> with dynamic input</td>
+</tr>
+<tr>
+<td>Python exec</td>
+<td><code>exec()</code> with dynamic input</td>
+</tr>
+<tr>
+<td>Compile</td>
+<td><code>compile()</code> with dynamic input</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<hr />
+<h2 id="category-4-network-safety">Category 4: Network Safety</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/network.py</code>
+<strong>OWASP:</strong> ASI04 (Data Leakage)</p>
+<h3 id="internal_network_access"><code>internal_network_access</code></h3>
+<p>Blocks requests to private/internal IP ranges (SSRF prevention).</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Ranges</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Class A private</td>
+<td><code>10.0.0.0/8</code></td>
+</tr>
+<tr>
+<td>Class B private</td>
+<td><code>172.16.0.0/12</code></td>
+</tr>
+<tr>
+<td>Class C private</td>
+<td><code>192.168.0.0/16</code></td>
+</tr>
+<tr>
+<td>Loopback</td>
+<td><code>127.0.0.0/8</code></td>
+</tr>
+<tr>
+<td>Link-local</td>
+<td><code>169.254.0.0/16</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="domain_denylist"><code>domain_denylist</code></h3>
+<p>Blocks requests to explicitly denied domains.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong> <code>denied_domains: list[str]</code></p>
+<h3 id="domain_allowlist"><code>domain_allowlist</code></h3>
+<p>When enabled, blocks requests to any domain NOT in the allowlist.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong> <code>allowed_domains: list[str]</code> (empty = disabled)</p>
+<h3 id="dns_rebinding"><code>dns_rebinding</code></h3>
+<p>Blocks domains that resolve to private IP ranges.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<hr />
+<h2 id="category-5-credential-data-leak-prevention">Category 5: Credential &amp; Data Leak Prevention</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/credential_leak.py</code>
+<strong>OWASP:</strong> ASI04 (Data Leakage)</p>
+<h3 id="api_key_leak"><code>api_key_leak</code></h3>
+<p>Detects API keys in outbound tool call arguments.</p>
+<table>
+<thead>
+<tr>
+<th>Provider</th>
+<th>Pattern</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AWS</td>
+<td><code>AKIA[0-9A-Z]{16}</code></td>
+</tr>
+<tr>
+<td>Google</td>
+<td><code>AIza[0-9A-Za-z\-_]{35}</code></td>
+</tr>
+<tr>
+<td>OpenAI / Anthropic</td>
+<td><code>sk-[a-zA-Z0-9]{20,}</code></td>
+</tr>
+<tr>
+<td>Stripe</td>
+<td><code>sk_live_[a-zA-Z0-9]{24,}</code></td>
+</tr>
+<tr>
+<td>GitHub</td>
+<td><code>ghp_[a-zA-Z0-9]{36}</code></td>
+</tr>
+<tr>
+<td>Slack</td>
+<td><code>xoxb-[0-9]{10,}-[a-zA-Z0-9]{24,}</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="token_leak"><code>token_leak</code></h3>
+<p>Detects bearer tokens, JWTs, and OAuth tokens in arguments.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="pii_leak"><code>pii_leak</code></h3>
+<p>Detects personally identifiable information in outbound tool calls.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Social Security Numbers</td>
+<td><code>XXX-XX-XXXX</code> pattern</td>
+</tr>
+<tr>
+<td>Credit card numbers</td>
+<td>Luhn-valid 13-19 digit sequences</td>
+</tr>
+<tr>
+<td>Email addresses</td>
+<td>Standard email pattern</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<h3 id="password_leak"><code>password_leak</code></h3>
+<p>Detects password-like values in arguments being sent to external tools.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="env_var_leak"><code>env_var_leak</code></h3>
+<p>Detects references to environment variables containing sensitive keywords (SECRET, KEY, TOKEN, PASSWORD).</p>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<hr />
+<h2 id="category-6-prompt-injection-detection">Category 6: Prompt Injection Detection</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/prompt_injection.py</code>
+<strong>OWASP:</strong> ASI01 (Goal Hijacking)</p>
+<h3 id="direct_injection"><code>direct_injection</code></h3>
+<p>Detects direct prompt injection attempts in tool arguments.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Examples</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Instruction override</td>
+<td>"ignore previous instructions"</td>
+</tr>
+<tr>
+<td>Identity hijacking</td>
+<td>"you are now", "act as"</td>
+</tr>
+<tr>
+<td>System prompt injection</td>
+<td>"system: " prefix in args</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="encoded_injection"><code>encoded_injection</code></h3>
+<p>Detects injection payloads hidden via encoding.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Encoding</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Base64-encoded payloads</td>
+<td>Base64 decode + re-check</td>
+</tr>
+<tr>
+<td>Hex-encoded payloads</td>
+<td>Hex decode + re-check</td>
+</tr>
+<tr>
+<td>URL-encoded payloads</td>
+<td>URL decode + re-check</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="role_override"><code>role_override</code></h3>
+<p>Blocks attempts to set system/assistant roles in tool arguments.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<h3 id="delimiter_injection"><code>delimiter_injection</code></h3>
+<p>Detects model-specific delimiter tokens in arguments.</p>
+<table>
+<thead>
+<tr>
+<th>What it detects</th>
+<th>Tokens</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>OpenAI</td>
+<td><code>&lt;\|im_start\|&gt;</code>, <code>&lt;\|im_end\|&gt;</code></td>
+</tr>
+<tr>
+<td>Llama</td>
+<td><code>[INST]</code>, <code>[/INST]</code></td>
+</tr>
+<tr>
+<td>Generic</td>
+<td><code>&lt;system&gt;</code>, <code>&lt;/system&gt;</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<hr />
+<h2 id="category-7-rate-limiting-resource-control">Category 7: Rate Limiting &amp; Resource Control</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/rate_limiter.py</code>
+<strong>OWASP:</strong> ASI07 (Cascading Failures)</p>
+<h3 id="per_tool_rate_limit"><code>per_tool_rate_limit</code></h3>
+<p>Limits the number of calls to each individual tool within a time window.</p>
+<p><strong>Default action:</strong> <code>deny</code> (when limit exceeded)
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-1-1" name="__codelineno-1-1" href="#__codelineno-1-1"></a><span class="nt">rate_limiter</span><span class="p">:</span>
+<a id="__codelineno-1-2" name="__codelineno-1-2" href="#__codelineno-1-2"></a><span class="w">  </span><span class="nt">max_calls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">100</span>
+<a id="__codelineno-1-3" name="__codelineno-1-3" href="#__codelineno-1-3"></a><span class="w">  </span><span class="nt">window_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">60</span>
+</code></pre></div></p>
+<h3 id="session_rate_limit"><code>session_rate_limit</code></h3>
+<p>Limits the total number of tool calls per session.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-2-1" name="__codelineno-2-1" href="#__codelineno-2-1"></a><span class="nt">session_rate_limit</span><span class="p">:</span>
+<a id="__codelineno-2-2" name="__codelineno-2-2" href="#__codelineno-2-2"></a><span class="w">  </span><span class="nt">max_calls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">500</span>
+<a id="__codelineno-2-3" name="__codelineno-2-3" href="#__codelineno-2-3"></a><span class="w">  </span><span class="nt">window_seconds</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">3600</span>
+</code></pre></div></p>
+<h3 id="burst_detection"><code>burst_detection</code></h3>
+<p>Detects and limits rapid-fire tool calls (more than N per second).</p>
+<p><strong>Default action:</strong> <code>escalate</code>
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-3-1" name="__codelineno-3-1" href="#__codelineno-3-1"></a><span class="nt">burst_detection</span><span class="p">:</span>
+<a id="__codelineno-3-2" name="__codelineno-3-2" href="#__codelineno-3-2"></a><span class="w">  </span><span class="nt">max_calls</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10</span>
+</code></pre></div></p>
+<hr />
+<h2 id="category-8-scope-enforcement">Category 8: Scope Enforcement</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/scope.py</code>
+<strong>OWASP:</strong> ASI03 (Identity Abuse), ASI06 (Rogue Agent)</p>
+<h3 id="tool_allowlist"><code>tool_allowlist</code></h3>
+<p>Restricts an agent to a declared set of tools.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-4-1" name="__codelineno-4-1" href="#__codelineno-4-1"></a><span class="nt">scope</span><span class="p">:</span>
+<a id="__codelineno-4-2" name="__codelineno-4-2" href="#__codelineno-4-2"></a><span class="w">  </span><span class="nt">allowed_tools</span><span class="p">:</span>
+<a id="__codelineno-4-3" name="__codelineno-4-3" href="#__codelineno-4-3"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">execute_sql</span>
+<a id="__codelineno-4-4" name="__codelineno-4-4" href="#__codelineno-4-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">read_file</span>
+<a id="__codelineno-4-5" name="__codelineno-4-5" href="#__codelineno-4-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">search_web</span>
+</code></pre></div></p>
+<h3 id="argument_schema"><code>argument_schema</code></h3>
+<p>Validates tool call arguments against a JSON Schema.</p>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<h3 id="cross_agent_scope"><code>cross_agent_scope</code></h3>
+<p>Prevents Agent A from calling tools scoped exclusively to Agent B.</p>
+<p><strong>Default action:</strong> <code>deny</code></p>
+<hr />
+<h2 id="category-9-cost-control">Category 9: Cost Control</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/cost_guard.py</code>
+<strong>OWASP:</strong> ASI07 (Cascading Failures)</p>
+<h3 id="session_cost_ceiling"><code>session_cost_ceiling</code></h3>
+<p>Blocks tool calls once estimated session costs exceed a limit.</p>
+<p><strong>Default action:</strong> <code>deny</code>
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-5-1" name="__codelineno-5-1" href="#__codelineno-5-1"></a><span class="nt">cost_guard</span><span class="p">:</span>
+<a id="__codelineno-5-2" name="__codelineno-5-2" href="#__codelineno-5-2"></a><span class="w">  </span><span class="nt">max_cost_usd</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0</span>
+<a id="__codelineno-5-3" name="__codelineno-5-3" href="#__codelineno-5-3"></a><span class="w">  </span><span class="nt">cost_per_call</span><span class="p">:</span>
+<a id="__codelineno-5-4" name="__codelineno-5-4" href="#__codelineno-5-4"></a><span class="w">    </span><span class="nt">openai_completion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.03</span>
+<a id="__codelineno-5-5" name="__codelineno-5-5" href="#__codelineno-5-5"></a><span class="w">    </span><span class="nt">web_search</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0.01</span>
+</code></pre></div></p>
+<h3 id="cost_alert"><code>cost_alert</code></h3>
+<p>Escalates when costs reach 80% of the ceiling.</p>
+<p><strong>Default action:</strong> <code>escalate</code></p>
+<hr />
+<h2 id="category-10-human-approval-gates">Category 10: Human Approval Gates</h2>
+<p><strong>File:</strong> <code>src/agentshield/rules/approval.py</code>
+<strong>OWASP:</strong> ASI09 (Human Override Failure)</p>
+<h3 id="require_approval_pattern"><code>require_approval_pattern</code></h3>
+<p>Requires human approval for tool calls matching name patterns.</p>
+<p><strong>Default action:</strong> <code>escalate</code>
+<strong>Configuration:</strong>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-6-1" name="__codelineno-6-1" href="#__codelineno-6-1"></a><span class="nt">require_approval_pattern</span><span class="p">:</span>
+<a id="__codelineno-6-2" name="__codelineno-6-2" href="#__codelineno-6-2"></a><span class="w">  </span><span class="nt">tool_patterns</span><span class="p">:</span>
+<a id="__codelineno-6-3" name="__codelineno-6-3" href="#__codelineno-6-3"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;deploy_*&quot;</span>
+<a id="__codelineno-6-4" name="__codelineno-6-4" href="#__codelineno-6-4"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;delete_prod_*&quot;</span>
+<a id="__codelineno-6-5" name="__codelineno-6-5" href="#__codelineno-6-5"></a><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;send_email&quot;</span>
+</code></pre></div></p>
+<h3 id="require_approval_financial"><code>require_approval_financial</code></h3>
+<p>Requires human approval for tool calls with monetary arguments above a threshold.</p>
+<p><strong>Default action:</strong> <code>escalate</code>
+<strong>Configuration:</strong> <code>threshold_usd: 100.0</code></p>
+<h3 id="require_approval_data_export"><code>require_approval_data_export</code></h3>
+<p>Requires human approval for data export operations exceeding a row count threshold.</p>
+<p><strong>Default action:</strong> <code>escalate</code>
+<strong>Configuration:</strong> <code>row_threshold: 1000</code></p>
+<hr />
+<h2 id="custom-rules-no-python-required">Custom Rules (No Python Required)</h2>
+<p>Define rules in YAML without writing any Python:</p>
+<div class="highlight"><pre><span></span><code><a id="__codelineno-7-1" name="__codelineno-7-1" href="#__codelineno-7-1"></a><span class="nt">custom_rules</span><span class="p">:</span>
+<a id="__codelineno-7-2" name="__codelineno-7-2" href="#__codelineno-7-2"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">block_twitter_posts</span>
+<a id="__codelineno-7-3" name="__codelineno-7-3" href="#__codelineno-7-3"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Prevent</span><span class="nv"> </span><span class="s">agent</span><span class="nv"> </span><span class="s">from</span><span class="nv"> </span><span class="s">posting</span><span class="nv"> </span><span class="s">to</span><span class="nv"> </span><span class="s">Twitter/X&quot;</span>
+<a id="__codelineno-7-4" name="__codelineno-7-4" href="#__codelineno-7-4"></a><span class="w">    </span><span class="nt">tool_patterns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;post_tweet&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;send_tweet&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;twitter_*&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-7-5" name="__codelineno-7-5" href="#__codelineno-7-5"></a><span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">deny</span>
+<a id="__codelineno-7-6" name="__codelineno-7-6" href="#__codelineno-7-6"></a><span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Twitter</span><span class="nv"> </span><span class="s">posting</span><span class="nv"> </span><span class="s">requires</span><span class="nv"> </span><span class="s">manual</span><span class="nv"> </span><span class="s">review&quot;</span>
+<a id="__codelineno-7-7" name="__codelineno-7-7" href="#__codelineno-7-7"></a><span class="w">    </span><span class="nt">owasp_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ASI02</span>
+<a id="__codelineno-7-8" name="__codelineno-7-8" href="#__codelineno-7-8"></a>
+<a id="__codelineno-7-9" name="__codelineno-7-9" href="#__codelineno-7-9"></a><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">approval_for_email</span>
+<a id="__codelineno-7-10" name="__codelineno-7-10" href="#__codelineno-7-10"></a><span class="w">    </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Require</span><span class="nv"> </span><span class="s">approval</span><span class="nv"> </span><span class="s">before</span><span class="nv"> </span><span class="s">sending</span><span class="nv"> </span><span class="s">any</span><span class="nv"> </span><span class="s">email&quot;</span>
+<a id="__codelineno-7-11" name="__codelineno-7-11" href="#__codelineno-7-11"></a><span class="w">    </span><span class="nt">tool_patterns</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="s">&quot;send_email&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;gmail_send&quot;</span><span class="p p-Indicator">,</span><span class="w"> </span><span class="s">&quot;smtp_send&quot;</span><span class="p p-Indicator">]</span>
+<a id="__codelineno-7-12" name="__codelineno-7-12" href="#__codelineno-7-12"></a><span class="w">    </span><span class="nt">action</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">escalate</span>
+<a id="__codelineno-7-13" name="__codelineno-7-13" href="#__codelineno-7-13"></a><span class="w">    </span><span class="nt">reason</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;Email</span><span class="nv"> </span><span class="s">sending</span><span class="nv"> </span><span class="s">requires</span><span class="nv"> </span><span class="s">human</span><span class="nv"> </span><span class="s">approval&quot;</span>
+</code></pre></div>
+<p>Custom rules are evaluated at priority 50+ (after all built-in rules).</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["content.code.copy", "content.code.annotate", "navigation.instant", "navigation.tabs", "navigation.sections", "search.highlight"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
