@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 import statistics
 import sys
@@ -12,8 +13,18 @@ from agentshield import Shield, ToolCallContext
 
 
 async def bench() -> None:
-    """Run a latency micro-benchmark against the default Shield."""
-    shield = Shield(rules=None, log_file=None)
+    """Run a latency micro-benchmark against the default Shield.
+
+    Uses monitor mode so that stateful rules (rate limiter, burst detection)
+    do not abort the run — the benchmark measures evaluation throughput, not
+    enforcement behaviour.  Console logging is silenced during the timed
+    section to avoid I/O skewing the numbers.
+    """
+    shield = Shield(mode="monitor", log_file=None)
+
+    logging.getLogger("agentshield").setLevel(logging.CRITICAL)
+    logging.getLogger("agentshield.audit").setLevel(logging.CRITICAL)
+
     context = ToolCallContext(
         tool_name="execute_sql",
         arguments={"query": "SELECT * FROM users WHERE id = 1"},
