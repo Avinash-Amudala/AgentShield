@@ -28,7 +28,7 @@ jobs:
           ruff check src/ tests/ --select E,F,W --ignore E501
           black --check src/ tests/
       - name: Test
-        run: pytest --cov=agentshield --cov-report=xml -q
+        run: pytest --cov=agentshield --cov-report=xml --junitxml=junit.xml -o junit_family=legacy -q
       - name: Benchmark
         run: python benchmarks/latency_bench.py
         continue-on-error: true
@@ -39,6 +39,11 @@ jobs:
           files: ./coverage.xml
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
 
   publish:
     needs: test
