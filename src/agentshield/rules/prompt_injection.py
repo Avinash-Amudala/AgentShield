@@ -1,4 +1,5 @@
 """Prompt injection detection rules (OWASP ASI01 — Prompt Injection)."""
+
 from __future__ import annotations
 
 import base64
@@ -33,7 +34,9 @@ class DirectInjectionRule(BaseRule):
     """
 
     name: str = "direct_injection"
-    description: str = "Block direct prompt injection ('ignore previous instructions', etc.)"
+    description: str = (
+        "Block direct prompt injection ('ignore previous instructions', etc.)"
+    )
     priority: int = 5
     enabled: bool = True
     owasp_id: str = "ASI01"
@@ -48,7 +51,9 @@ class DirectInjectionRule(BaseRule):
         re.compile(r"pretend\s+you\s+are\b", re.IGNORECASE),
         re.compile(r"^system:\s+", re.IGNORECASE | re.MULTILINE),
         re.compile(r"new\s+instructions?:\s+", re.IGNORECASE),
-        re.compile(r"override\s+(?:your\s+)?(?:previous\s+)?instructions", re.IGNORECASE),
+        re.compile(
+            r"override\s+(?:your\s+)?(?:previous\s+)?instructions", re.IGNORECASE
+        ),
     ]
 
     async def evaluate(self, context: ToolCallContext) -> PolicyResponse:
@@ -68,7 +73,10 @@ class DirectInjectionRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Prompt injection detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -99,17 +107,15 @@ class EncodedInjectionRule(BaseRule):
         re.compile(r"\[INST\]", re.IGNORECASE),
     ]
 
-    _BASE64_PATTERN: re.Pattern[str] = re.compile(
-        r"[A-Za-z0-9+/]{20,}={0,2}"
-    )
-    _HEX_PATTERN: re.Pattern[str] = re.compile(
-        r"(?:0x)?(?:[0-9a-fA-F]{2}){10,}"
-    )
+    _BASE64_PATTERN: re.Pattern[str] = re.compile(r"[A-Za-z0-9+/]{20,}={0,2}")
+    _HEX_PATTERN: re.Pattern[str] = re.compile(r"(?:0x)?(?:[0-9a-fA-F]{2}){10,}")
 
     def _try_decode_base64(self, text: str) -> str | None:
         """Attempt to decode a base64 string, returning None on failure."""
         try:
-            decoded = base64.b64decode(text, validate=True).decode("utf-8", errors="ignore")
+            decoded = base64.b64decode(text, validate=True).decode(
+                "utf-8", errors="ignore"
+            )
             if decoded.isprintable() or any(c.isalpha() for c in decoded):
                 return decoded
         except Exception:
@@ -218,7 +224,10 @@ class RoleOverrideRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Role override attempt detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -236,7 +245,9 @@ class DelimiterInjectionRule(BaseRule):
     """
 
     name: str = "delimiter_injection"
-    description: str = "Block LLM delimiter tokens (<|im_start|>, [INST], <system>, </s>)"
+    description: str = (
+        "Block LLM delimiter tokens (<|im_start|>, [INST], <system>, </s>)"
+    )
     priority: int = 5
     enabled: bool = True
     owasp_id: str = "ASI01"
@@ -272,7 +283,10 @@ class DelimiterInjectionRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"LLM delimiter injection detected: {match.group()!r}",
-                        details={"delimiter": match.group(), "value_snippet": value[:200]},
+                        details={
+                            "delimiter": match.group(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(

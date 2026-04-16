@@ -8,6 +8,7 @@ Requires:  pip install agentshield[mcp]
 
 Run:  python examples/mcp_example.py
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -80,9 +81,13 @@ async def _guarded_call(
 
     # Simulate actual tool execution
     if tool_name == "execute_sql":
-        return [TextContent(type="text", text=f"[result] Rows from: {arguments['query']}")]
+        return [
+            TextContent(type="text", text=f"[result] Rows from: {arguments['query']}")
+        ]
     if tool_name == "read_file":
-        return [TextContent(type="text", text=f"[result] Contents of {arguments['path']}")]
+        return [
+            TextContent(type="text", text=f"[result] Contents of {arguments['path']}")
+        ]
     return [TextContent(type="text", text="Unknown tool")]
 
 

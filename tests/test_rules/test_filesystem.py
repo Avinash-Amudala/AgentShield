@@ -14,8 +14,8 @@ from agentshield.rules.filesystem import (
     WriteOutsideSandboxRule,
 )
 
-
 # ── PathTraversalRule ───────────────────────────────────────────────
+
 
 class TestPathTraversalRule:
     @pytest.fixture
@@ -53,8 +53,13 @@ class TestPathTraversalRule:
     async def test_deny_absolute_path_outside_sandbox(self, rule):
         ctx = ToolCallContext(
             tool_name="read_file",
-            arguments={"path": "C:\\Windows\\System32\\config\\SAM"
-                        if os.name == "nt" else "/etc/shadow"},
+            arguments={
+                "path": (
+                    "C:\\Windows\\System32\\config\\SAM"
+                    if os.name == "nt"
+                    else "/etc/shadow"
+                )
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -69,6 +74,7 @@ class TestPathTraversalRule:
 
 
 # ── SensitiveFileReadRule ───────────────────────────────────────────
+
 
 class TestSensitiveFileReadRule:
     @pytest.fixture
@@ -134,6 +140,7 @@ class TestSensitiveFileReadRule:
 
 # ── WriteOutsideSandboxRule ─────────────────────────────────────────
 
+
 class TestWriteOutsideSandboxRule:
     @pytest.fixture
     def rule(self, tmp_path):
@@ -161,8 +168,9 @@ class TestWriteOutsideSandboxRule:
     async def test_deny_write_outside_sandbox(self, rule):
         ctx = ToolCallContext(
             tool_name="write_file",
-            arguments={"path": "C:\\Windows\\evil.txt"
-                        if os.name == "nt" else "/tmp/evil.txt"},
+            arguments={
+                "path": "C:\\Windows\\evil.txt" if os.name == "nt" else "/tmp/evil.txt"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -170,8 +178,13 @@ class TestWriteOutsideSandboxRule:
     async def test_deny_create_file_outside(self, rule):
         ctx = ToolCallContext(
             tool_name="create_file",
-            arguments={"path": "C:\\Users\\Public\\hack.txt"
-                        if os.name == "nt" else "/var/hack.txt"},
+            arguments={
+                "path": (
+                    "C:\\Users\\Public\\hack.txt"
+                    if os.name == "nt"
+                    else "/var/hack.txt"
+                )
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -179,14 +192,20 @@ class TestWriteOutsideSandboxRule:
     async def test_edge_case_append_file_outside(self, rule):
         ctx = ToolCallContext(
             tool_name="append_file",
-            arguments={"path": "C:\\Windows\\System32\\evil.dll"
-                        if os.name == "nt" else "/usr/bin/evil"},
+            arguments={
+                "path": (
+                    "C:\\Windows\\System32\\evil.dll"
+                    if os.name == "nt"
+                    else "/usr/bin/evil"
+                )
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
 
 # ── SymlinkAttackRule ───────────────────────────────────────────────
+
 
 class TestSymlinkAttackRule:
     @pytest.fixture
@@ -215,8 +234,9 @@ class TestSymlinkAttackRule:
     async def test_deny_symlink_outside_sandbox(self, rule):
         ctx = ToolCallContext(
             tool_name="create_symlink",
-            arguments={"target": "C:\\Windows\\System32"
-                        if os.name == "nt" else "/etc/shadow"},
+            arguments={
+                "target": "C:\\Windows\\System32" if os.name == "nt" else "/etc/shadow"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -224,8 +244,7 @@ class TestSymlinkAttackRule:
     async def test_deny_ln_outside_sandbox(self, rule):
         ctx = ToolCallContext(
             tool_name="ln",
-            arguments={"target": "C:\\Users\\admin"
-                        if os.name == "nt" else "/root"},
+            arguments={"target": "C:\\Users\\admin" if os.name == "nt" else "/root"},
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -233,14 +252,16 @@ class TestSymlinkAttackRule:
     async def test_edge_case_symlink_tool_name(self, rule):
         ctx = ToolCallContext(
             tool_name="symlink",
-            arguments={"target": "C:\\boot.ini"
-                        if os.name == "nt" else "/boot/vmlinuz"},
+            arguments={
+                "target": "C:\\boot.ini" if os.name == "nt" else "/boot/vmlinuz"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
 
 # ── ExecutableWriteRule ─────────────────────────────────────────────
+
 
 class TestExecutableWriteRule:
     @pytest.fixture

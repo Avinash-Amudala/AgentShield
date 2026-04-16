@@ -1,4 +1,5 @@
 """CrewAI adapter for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio
@@ -8,7 +9,6 @@ from typing import Any, Callable
 
 from agentshield.core.context import ToolCallContext
 from agentshield.core.exceptions import ToolCallBlocked
-from agentshield.core.result import PolicyAction
 from agentshield.core.shield import Shield
 
 logger = logging.getLogger("agentshield.adapters.crewai")
@@ -49,9 +49,7 @@ def shield_crew(
     """
     Crew, BaseTool = _ensure_crewai()
     if not isinstance(crew, Crew):
-        raise TypeError(
-            f"Expected a crewai.Crew instance, got {type(crew).__name__}"
-        )
+        raise TypeError(f"Expected a crewai.Crew instance, got {type(crew).__name__}")
 
     agents = getattr(crew, "agents", [])
     for agent in agents:

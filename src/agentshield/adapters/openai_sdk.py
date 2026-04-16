@@ -1,4 +1,5 @@
 """OpenAI Agents SDK adapter for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio

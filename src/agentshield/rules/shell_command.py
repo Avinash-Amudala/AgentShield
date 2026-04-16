@@ -1,4 +1,5 @@
 """Shell command safety rules (OWASP ASI02 — Tool Misuse)."""
+
 from __future__ import annotations
 
 import re
@@ -36,7 +37,9 @@ class DestructiveShellRule(BaseRule):
     owasp_id: str = "ASI02"
 
     _PATTERNS: list[re.Pattern[str]] = [
-        re.compile(r"\brm\s+(-[a-zA-Z]*r[a-zA-Z]*f|--recursive\s+--force|-[a-zA-Z]*f[a-zA-Z]*r)\b"),
+        re.compile(
+            r"\brm\s+(-[a-zA-Z]*r[a-zA-Z]*f|--recursive\s+--force|-[a-zA-Z]*f[a-zA-Z]*r)\b"
+        ),
         re.compile(r"\brm\s+-[a-zA-Z]*r[a-zA-Z]*\s+/\s*$"),
         re.compile(r"\brm\s+-[a-zA-Z]*r[a-zA-Z]*\s+/\b"),
         re.compile(r"\bmkfs\b"),
@@ -62,7 +65,10 @@ class DestructiveShellRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Destructive shell command detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "command_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "command_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -80,7 +86,9 @@ class ReverseShellRule(BaseRule):
     """
 
     name: str = "reverse_shell"
-    description: str = "Block reverse shell payloads (bash /dev/tcp, nc -e, python socket)"
+    description: str = (
+        "Block reverse shell payloads (bash /dev/tcp, nc -e, python socket)"
+    )
     priority: int = 1
     enabled: bool = True
     owasp_id: str = "ASI02"
@@ -112,7 +120,10 @@ class ReverseShellRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Reverse shell detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "command_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "command_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -162,7 +173,10 @@ class PrivilegeEscalationRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Privilege escalation detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "command_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "command_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -179,7 +193,9 @@ class DataExfiltrationShellRule(BaseRule):
     """
 
     name: str = "data_exfiltration_shell"
-    description: str = "Escalate data exfiltration via curl, wget, scp to external hosts"
+    description: str = (
+        "Escalate data exfiltration via curl, wget, scp to external hosts"
+    )
     priority: int = 3
     enabled: bool = True
     owasp_id: str = "ASI02"
@@ -212,7 +228,10 @@ class DataExfiltrationShellRule(BaseRule):
                         action=PolicyAction.ESCALATE,
                         rule_name=self.name,
                         reason=f"Potential data exfiltration detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "command_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "command_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -262,7 +281,10 @@ class DangerousEvalRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Dangerous code execution detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "command_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "command_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(

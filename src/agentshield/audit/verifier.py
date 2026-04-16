@@ -3,6 +3,7 @@
 Walks a JSONL audit log produced by :class:`AuditLogger` and
 recomputes every hash to detect tampering or corruption.
 """
+
 from __future__ import annotations
 
 import hashlib

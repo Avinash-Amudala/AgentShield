@@ -1,0 +1,6 @@
+# GitGuardian configuration
+# Test files contain intentional fake credentials for testing credential leak detection
+paths-ignore:
+  - "tests/**"
+  - "benchmarks/**"
+  - "examples/**"

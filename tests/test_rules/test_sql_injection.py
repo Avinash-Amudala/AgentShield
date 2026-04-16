@@ -12,8 +12,8 @@ from agentshield.rules.sql_injection import (
     SQLUnionInjectionRule,
 )
 
-
 # ── DestructiveSQLRule ──────────────────────────────────────────────
+
 
 class TestDestructiveSQLRule:
     @pytest.fixture
@@ -21,7 +21,9 @@ class TestDestructiveSQLRule:
         return DestructiveSQLRule()
 
     async def test_allow_safe_select(self, rule):
-        ctx = ToolCallContext(tool_name="db", arguments={"query": "SELECT * FROM users"})
+        ctx = ToolCallContext(
+            tool_name="db", arguments={"query": "SELECT * FROM users"}
+        )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -79,6 +81,7 @@ class TestDestructiveSQLRule:
 
 # ── SQLUnionInjectionRule ───────────────────────────────────────────
 
+
 class TestSQLUnionInjectionRule:
     @pytest.fixture
     def rule(self):
@@ -103,7 +106,9 @@ class TestSQLUnionInjectionRule:
     async def test_deny_union_select(self, rule):
         ctx = ToolCallContext(
             tool_name="db",
-            arguments={"query": "SELECT id FROM users UNION SELECT password FROM credentials"},
+            arguments={
+                "query": "SELECT id FROM users UNION SELECT password FROM credentials"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -126,6 +131,7 @@ class TestSQLUnionInjectionRule:
 
 
 # ── SQLCommentInjectionRule ─────────────────────────────────────────
+
 
 class TestSQLCommentInjectionRule:
     @pytest.fixture
@@ -151,7 +157,9 @@ class TestSQLCommentInjectionRule:
     async def test_deny_double_dash_comment(self, rule):
         ctx = ToolCallContext(
             tool_name="db",
-            arguments={"query": "SELECT * FROM users WHERE id = 1-- AND password = 'x'"},
+            arguments={
+                "query": "SELECT * FROM users WHERE id = 1-- AND password = 'x'"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -159,7 +167,9 @@ class TestSQLCommentInjectionRule:
     async def test_deny_block_comment(self, rule):
         ctx = ToolCallContext(
             tool_name="db",
-            arguments={"query": "SELECT * FROM users WHERE id = 1 /* drop everything */"},
+            arguments={
+                "query": "SELECT * FROM users WHERE id = 1 /* drop everything */"
+            },
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -174,6 +184,7 @@ class TestSQLCommentInjectionRule:
 
 
 # ── SQLBatchExecutionRule ───────────────────────────────────────────
+
 
 class TestSQLBatchExecutionRule:
     @pytest.fixture
@@ -222,6 +233,7 @@ class TestSQLBatchExecutionRule:
 
 
 # ── SQLAdminCommandsRule ────────────────────────────────────────────
+
 
 class TestSQLAdminCommandsRule:
     @pytest.fixture

@@ -1,4 +1,5 @@
 """Custom exceptions raised by AgentShield."""
+
 from __future__ import annotations
 
 from agentshield.core.result import PolicyResponse

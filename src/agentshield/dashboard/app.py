@@ -4,6 +4,7 @@ Provides a FastAPI-backed single-page dashboard with Server-Sent Events
 for live streaming of audit events.  FastAPI and uvicorn are **optional**
 dependencies — imported lazily so the rest of AgentShield works without them.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -20,6 +21,7 @@ def _require_fastapi() -> Any:
     """Lazy-import FastAPI, raising a helpful error when missing."""
     try:
         import fastapi  # noqa: F811
+
         return fastapi
     except ImportError:
         raise ImportError(
@@ -33,6 +35,7 @@ def _require_uvicorn() -> Any:
     """Lazy-import uvicorn, raising a helpful error when missing."""
     try:
         import uvicorn
+
         return uvicorn
     except ImportError:
         raise ImportError(

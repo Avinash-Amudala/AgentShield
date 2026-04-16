@@ -1,4 +1,5 @@
 """AgentShield built-in rules — safe defaults for agentic AI systems."""
+
 from __future__ import annotations
 
 from agentshield.rules.base import BaseRule

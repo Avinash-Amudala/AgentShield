@@ -1,4 +1,5 @@
 """Filesystem safety rules (OWASP ASI02 — Tool Misuse)."""
+
 from __future__ import annotations
 
 import os
@@ -71,7 +72,11 @@ class PathTraversalRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Absolute path outside sandbox: {value!r}",
-                        details={"path": value, "resolved": resolved, "sandbox_dir": sandbox},
+                        details={
+                            "path": value,
+                            "resolved": resolved,
+                            "sandbox_dir": sandbox,
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -89,7 +94,9 @@ class SensitiveFileReadRule(BaseRule):
     """
 
     name: str = "sensitive_file_read"
-    description: str = "Block reads of sensitive files (.env, /etc/passwd, *.pem, *.key)"
+    description: str = (
+        "Block reads of sensitive files (.env, /etc/passwd, *.pem, *.key)"
+    )
     priority: int = 6
     enabled: bool = True
     owasp_id: str = "ASI02"
@@ -156,8 +163,14 @@ class WriteOutsideSandboxRule(BaseRule):
     sandbox_dir: str = "."
 
     _WRITE_TOOLS: set[str] = {
-        "write_file", "create_file", "save_file", "write", "append_file",
-        "move_file", "rename_file", "copy_file",
+        "write_file",
+        "create_file",
+        "save_file",
+        "write",
+        "append_file",
+        "move_file",
+        "rename_file",
+        "copy_file",
     }
 
     async def evaluate(self, context: ToolCallContext) -> PolicyResponse:
@@ -184,7 +197,11 @@ class WriteOutsideSandboxRule(BaseRule):
                     action=PolicyAction.DENY,
                     rule_name=self.name,
                     reason=f"Write outside sandbox blocked: {value!r}",
-                    details={"path": value, "resolved": candidate, "sandbox_dir": sandbox},
+                    details={
+                        "path": value,
+                        "resolved": candidate,
+                        "sandbox_dir": sandbox,
+                    },
                     owasp_id=self.owasp_id,
                 )
         return PolicyResponse(
@@ -231,7 +248,11 @@ class SymlinkAttackRule(BaseRule):
                     action=PolicyAction.DENY,
                     rule_name=self.name,
                     reason=f"Symlink target outside sandbox blocked: {value!r}",
-                    details={"path": value, "resolved": resolved, "sandbox_dir": sandbox},
+                    details={
+                        "path": value,
+                        "resolved": resolved,
+                        "sandbox_dir": sandbox,
+                    },
                     owasp_id=self.owasp_id,
                 )
         return PolicyResponse(

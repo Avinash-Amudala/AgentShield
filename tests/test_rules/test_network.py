@@ -13,8 +13,8 @@ from agentshield.rules.network import (
     InternalNetworkAccessRule,
 )
 
-
 # ── InternalNetworkAccessRule ───────────────────────────────────────
+
 
 class TestInternalNetworkAccessRule:
     @pytest.fixture
@@ -81,6 +81,7 @@ class TestInternalNetworkAccessRule:
 
 # ── DomainDenylistRule ──────────────────────────────────────────────
 
+
 class TestDomainDenylistRule:
     @pytest.fixture
     def rule(self):
@@ -97,9 +98,7 @@ class TestDomainDenylistRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_no_url(self, rule):
-        ctx = ToolCallContext(
-            tool_name="query", arguments={"sql": "SELECT 1"}
-        )
+        ctx = ToolCallContext(tool_name="query", arguments={"sql": "SELECT 1"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -131,6 +130,7 @@ class TestDomainDenylistRule:
 
 # ── DomainAllowlistRule ────────────────────────────────────────────
 
+
 class TestDomainAllowlistRule:
     @pytest.fixture
     def rule(self):
@@ -147,9 +147,7 @@ class TestDomainAllowlistRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_no_urls(self, rule):
-        ctx = ToolCallContext(
-            tool_name="query", arguments={"data": "no url here"}
-        )
+        ctx = ToolCallContext(tool_name="query", arguments={"data": "no url here"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -181,15 +179,14 @@ class TestDomainAllowlistRule:
 
 # ── DNSRebindingRule ────────────────────────────────────────────────
 
+
 class TestDNSRebindingRule:
     @pytest.fixture
     def rule(self):
         return DNSRebindingRule()
 
     async def test_allow_no_urls(self, rule):
-        ctx = ToolCallContext(
-            tool_name="query", arguments={"data": "no url"}
-        )
+        ctx = ToolCallContext(tool_name="query", arguments={"data": "no url"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -229,6 +226,7 @@ class TestDNSRebindingRule:
     @patch("agentshield.rules.network.socket.getaddrinfo")
     async def test_edge_case_dns_failure_allows(self, mock_getaddrinfo, rule):
         import socket
+
         mock_getaddrinfo.side_effect = socket.gaierror("DNS lookup failed")
         ctx = ToolCallContext(
             tool_name="fetch",

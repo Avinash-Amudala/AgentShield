@@ -1,4 +1,5 @@
 """HITL (Human-in-the-Loop) approval gateway for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio
@@ -209,6 +210,7 @@ class HITLGateway:
 # Helpers
 # ------------------------------------------------------------------
 
+
 def _build_payload(
     event_id: str,
     context: ToolCallContext,
@@ -251,12 +253,15 @@ def _build_channel(cfg: dict[str, Any]) -> NotificationChannel | None:
     ch_type = cfg.get("type", "").lower()
     if ch_type == "terminal":
         from agentshield.hitl.terminal import TerminalChannel
+
         return TerminalChannel()
     if ch_type == "slack":
         from agentshield.hitl.slack import SlackChannel
+
         return SlackChannel(webhook_url=cfg.get("webhook_url", ""))
     if ch_type == "discord":
         from agentshield.hitl.discord import DiscordChannel
+
         return DiscordChannel(webhook_url=cfg.get("webhook_url", ""))
 
     logger.warning("Unknown HITL channel type: %r", ch_type)

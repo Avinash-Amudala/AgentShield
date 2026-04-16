@@ -12,8 +12,8 @@ from agentshield.rules.credential_leak import (
     TokenLeakRule,
 )
 
-
 # ── APIKeyLeakRule ──────────────────────────────────────────────────
+
 
 class TestAPIKeyLeakRule:
     @pytest.fixture
@@ -28,16 +28,16 @@ class TestAPIKeyLeakRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_short_string(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"data": "sk-short"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"data": "sk-short"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_deny_aws_access_key(self, rule):
         ctx = ToolCallContext(
             tool_name="send",
-            arguments={"body": "My key is AKIAIOSFODNN7EXAMPLE"},
+            arguments={
+                "body": "My key is AKIAIOSFODNN7EXAMPLE"
+            },  # pragma: allowlist secret
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -46,7 +46,9 @@ class TestAPIKeyLeakRule:
     async def test_deny_openai_key(self, rule):
         ctx = ToolCallContext(
             tool_name="send",
-            arguments={"body": "sk-abc123def456ghi789jkl012mno345pq"},
+            arguments={
+                "body": "sk-abc123def456ghi789jkl012mno345pq"
+            },  # pragma: allowlist secret
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -54,7 +56,9 @@ class TestAPIKeyLeakRule:
     async def test_deny_github_pat(self, rule):
         ctx = ToolCallContext(
             tool_name="send",
-            arguments={"body": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij"},
+            arguments={
+                "body": "ghp_ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghij"
+            },  # pragma: allowlist secret
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -62,13 +66,16 @@ class TestAPIKeyLeakRule:
     async def test_edge_case_nested_key(self, rule):
         ctx = ToolCallContext(
             tool_name="send",
-            arguments={"config": {"auth": "AKIAIOSFODNN7EXAMPLE"}},
+            arguments={
+                "config": {"auth": "AKIAIOSFODNN7EXAMPLE"}
+            },  # pragma: allowlist secret
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
 
 # ── TokenLeakRule ───────────────────────────────────────────────────
+
 
 class TestTokenLeakRule:
     @pytest.fixture
@@ -83,14 +90,12 @@ class TestTokenLeakRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_short_bearer(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"header": "Bearer short"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"header": "Bearer short"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_deny_jwt_token(self, rule):
-        jwt = (
+        jwt = (  # pragma: allowlist secret
             "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9."
             "eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik"
             "pvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ."
@@ -104,7 +109,9 @@ class TestTokenLeakRule:
     async def test_deny_bearer_token(self, rule):
         ctx = ToolCallContext(
             tool_name="send",
-            arguments={"header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9abcdefg12345"},
+            arguments={
+                "header": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9abcdefg12345"
+            },  # pragma: allowlist secret
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -120,6 +127,7 @@ class TestTokenLeakRule:
 
 # ── PIILeakRule ─────────────────────────────────────────────────────
 
+
 class TestPIILeakRule:
     @pytest.fixture
     def rule(self):
@@ -133,9 +141,7 @@ class TestPIILeakRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_non_pii_number(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"body": "Order #12345"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"body": "Order #12345"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -168,6 +174,7 @@ class TestPIILeakRule:
 
 
 # ── PasswordLeakRule ────────────────────────────────────────────────
+
 
 class TestPasswordLeakRule:
     @pytest.fixture
@@ -223,22 +230,19 @@ class TestPasswordLeakRule:
 
 # ── EnvVarLeakRule ──────────────────────────────────────────────────
 
+
 class TestEnvVarLeakRule:
     @pytest.fixture
     def rule(self):
         return EnvVarLeakRule()
 
     async def test_allow_normal_text(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"body": "Just a message"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"body": "Just a message"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_safe_env_var(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"body": "$HOME/documents"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"body": "$HOME/documents"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 

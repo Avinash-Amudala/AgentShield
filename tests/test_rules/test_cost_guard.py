@@ -1,13 +1,12 @@
 from __future__ import annotations
 
-import pytest
 
 from agentshield.core.context import ToolCallContext
 from agentshield.core.result import PolicyAction
 from agentshield.rules.cost_guard import CostAlertRule, SessionCostCeilingRule
 
-
 # ── SessionCostCeilingRule ──────────────────────────────────────────
+
 
 class TestSessionCostCeilingRule:
     def _make_rule(
@@ -24,9 +23,7 @@ class TestSessionCostCeilingRule:
         return rule
 
     def _ctx(self, tool_name: str = "tool", session_id: str = "s1"):
-        return ToolCallContext(
-            tool_name=tool_name, arguments={}, session_id=session_id
-        )
+        return ToolCallContext(tool_name=tool_name, arguments={}, session_id=session_id)
 
     async def test_allow_first_call(self):
         rule = self._make_rule()
@@ -68,6 +65,7 @@ class TestSessionCostCeilingRule:
 
 # ── CostAlertRule ───────────────────────────────────────────────────
 
+
 class TestCostAlertRule:
     def _make_rule(
         self,
@@ -82,9 +80,7 @@ class TestCostAlertRule:
         return rule
 
     def _ctx(self, session_id: str = "s1"):
-        return ToolCallContext(
-            tool_name="tool", arguments={}, session_id=session_id
-        )
+        return ToolCallContext(tool_name="tool", arguments={}, session_id=session_id)
 
     async def test_allow_below_threshold(self):
         rule = self._make_rule(max_cost=1.0, default_cost=0.10)
@@ -97,18 +93,14 @@ class TestCostAlertRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_escalate_at_threshold(self):
-        rule = self._make_rule(
-            max_cost=1.0, default_cost=0.125, alert_threshold=0.80
-        )
+        rule = self._make_rule(max_cost=1.0, default_cost=0.125, alert_threshold=0.80)
         for _ in range(6):
             await rule.evaluate(self._ctx())
         result = await rule.evaluate(self._ctx())  # 0.875 >= 0.80
         assert result.action is PolicyAction.ESCALATE
 
     async def test_escalate_fires_only_once(self):
-        rule = self._make_rule(
-            max_cost=1.0, default_cost=0.125, alert_threshold=0.80
-        )
+        rule = self._make_rule(max_cost=1.0, default_cost=0.125, alert_threshold=0.80)
         for _ in range(6):
             await rule.evaluate(self._ctx())
         result1 = await rule.evaluate(self._ctx())  # 0.875 >= 0.80
@@ -117,9 +109,7 @@ class TestCostAlertRule:
         assert result2.action is PolicyAction.ALLOW
 
     async def test_edge_case_separate_sessions(self):
-        rule = self._make_rule(
-            max_cost=1.0, default_cost=0.50, alert_threshold=0.80
-        )
+        rule = self._make_rule(max_cost=1.0, default_cost=0.50, alert_threshold=0.80)
         await rule.evaluate(self._ctx(session_id="a"))
         result = await rule.evaluate(self._ctx(session_id="a"))
         assert result.action is PolicyAction.ESCALATE

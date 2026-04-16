@@ -10,8 +10,8 @@ from agentshield.rules.scope import (
     ToolAllowlistRule,
 )
 
-
 # ── ToolAllowlistRule ───────────────────────────────────────────────
+
 
 class TestToolAllowlistRule:
     @pytest.fixture
@@ -49,6 +49,7 @@ class TestToolAllowlistRule:
 
 # ── ArgumentSchemaRule ──────────────────────────────────────────────
 
+
 class TestArgumentSchemaRule:
     @pytest.fixture
     def rule(self):
@@ -67,16 +68,12 @@ class TestArgumentSchemaRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_no_schema_defined(self, rule):
-        ctx = ToolCallContext(
-            tool_name="unknown_tool", arguments={"anything": 123}
-        )
+        ctx = ToolCallContext(tool_name="unknown_tool", arguments={"anything": 123})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_escalate_wrong_type(self, rule):
-        ctx = ToolCallContext(
-            tool_name="read_file", arguments={"path": 12345}
-        )
+        ctx = ToolCallContext(tool_name="read_file", arguments={"path": 12345})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ESCALATE
         assert "expected str" in result.reason
@@ -101,6 +98,7 @@ class TestArgumentSchemaRule:
 
 # ── CrossAgentScopeRule ─────────────────────────────────────────────
 
+
 class TestCrossAgentScopeRule:
     @pytest.fixture
     def rule(self):
@@ -112,31 +110,23 @@ class TestCrossAgentScopeRule:
         return r
 
     async def test_allow_agent_in_scope(self, rule):
-        ctx = ToolCallContext(
-            tool_name="read_file", arguments={}, agent_id="reader"
-        )
+        ctx = ToolCallContext(tool_name="read_file", arguments={}, agent_id="reader")
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_no_scopes_configured(self):
         rule = CrossAgentScopeRule()
-        ctx = ToolCallContext(
-            tool_name="anything", arguments={}, agent_id="any_agent"
-        )
+        ctx = ToolCallContext(tool_name="anything", arguments={}, agent_id="any_agent")
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_deny_agent_out_of_scope(self, rule):
-        ctx = ToolCallContext(
-            tool_name="write_file", arguments={}, agent_id="reader"
-        )
+        ctx = ToolCallContext(tool_name="write_file", arguments={}, agent_id="reader")
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
     async def test_deny_cross_agent_tool_access(self, rule):
-        ctx = ToolCallContext(
-            tool_name="read_file", arguments={}, agent_id="writer"
-        )
+        ctx = ToolCallContext(tool_name="read_file", arguments={}, agent_id="writer")
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 

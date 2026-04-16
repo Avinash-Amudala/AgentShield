@@ -1,4 +1,5 @@
 """LangChain adapter for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio
@@ -8,7 +9,6 @@ from typing import Any, Callable
 
 from agentshield.core.context import ToolCallContext
 from agentshield.core.exceptions import ToolCallBlocked
-from agentshield.core.result import PolicyAction
 from agentshield.core.shield import Shield
 
 logger = logging.getLogger("agentshield.adapters.langchain")
@@ -70,7 +70,7 @@ class ShieldedToolkit:
 
     def _wrap_tool(self, tool: Any) -> Any:
         """Clone a tool and replace its ``_run`` / ``_arun`` with guarded versions."""
-        BaseTool = _ensure_langchain()
+        _ensure_langchain()
         shield = self._shield
         agent_id = self._agent_id
         tool_name = getattr(tool, "name", tool.__class__.__name__)

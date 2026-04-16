@@ -4,6 +4,7 @@ Uses only stdlib (argparse, json, pathlib) for the core commands.
 The ``serve`` sub-command lazy-imports the dashboard module so FastAPI
 and uvicorn are only required when actually starting the web UI.
 """
+
 from __future__ import annotations
 
 import argparse
@@ -55,7 +56,9 @@ def _cmd_verify(args: argparse.Namespace) -> int:
         print(f"OK  {result.total_entries} entries verified — chain intact.")
         return 0
 
-    print(f"FAIL  {len(result.broken_links)} broken link(s) in {result.total_entries} entries:")
+    print(
+        f"FAIL  {len(result.broken_links)} broken link(s) in {result.total_entries} entries:"
+    )
     for link in result.broken_links:
         print(f"  Line {link.line_number}: entry {link.entry_id}")
         print(f"    expected: {link.expected_hash}")
@@ -95,21 +98,21 @@ def _cmd_stats(args: argparse.Namespace) -> int:
         tools[evt.get("tool_name", "unknown")] += 1
         agents[evt.get("agent_id", "unknown")] += 1
 
-    print(f"\n  AgentShield Audit Statistics")
+    print("\n  AgentShield Audit Statistics")
     print(f"  {'=' * 40}")
     print(f"  Total events:  {total}")
     print()
-    print(f"  Actions:")
+    print("  Actions:")
     for action, count in actions.most_common():
         pct = count / total * 100
         bar = "#" * int(pct / 2)
         print(f"    {action:10s}  {count:>6,}  ({pct:5.1f}%)  {bar}")
     print()
-    print(f"  Top rules (by trigger count):")
+    print("  Top rules (by trigger count):")
     for name, count in rules.most_common(10):
         print(f"    {name:30s}  {count:>6,}")
     print()
-    print(f"  Top tools:")
+    print("  Top tools:")
     for name, count in tools.most_common(10):
         print(f"    {name:30s}  {count:>6,}")
     print()
@@ -215,6 +218,7 @@ def _cmd_version(_args: argparse.Namespace) -> int:
         Exit code — always 0.
     """
     from agentshield import __version__
+
     print(f"agentshield {__version__}")
     return 0
 
@@ -233,45 +237,53 @@ def main(argv: Sequence[str] | None = None) -> None:
 
     # --- verify ---
     verify_p = subparsers.add_parser(
-        "verify", help="Verify audit log hash-chain integrity",
+        "verify",
+        help="Verify audit log hash-chain integrity",
     )
     verify_p.add_argument("log_file", help="Path to the JSONL audit log")
 
     # --- stats ---
     stats_p = subparsers.add_parser(
-        "stats", help="Print audit log statistics",
+        "stats",
+        help="Print audit log statistics",
     )
     stats_p.add_argument("log_file", help="Path to the JSONL audit log")
 
     # --- export ---
     export_p = subparsers.add_parser(
-        "export", help="Export audit log to CSV or JSON",
+        "export",
+        help="Export audit log to CSV or JSON",
     )
     export_p.add_argument("log_file", help="Path to the JSONL audit log")
     export_p.add_argument(
-        "--format", "-f",
+        "--format",
+        "-f",
         choices=["csv", "json"],
         default="csv",
         help="Output format (default: csv)",
     )
     export_p.add_argument(
-        "--output", "-o",
+        "--output",
+        "-o",
         default=None,
         help="Output file path (default: <log_file>.<format>)",
     )
 
     # --- serve ---
     serve_p = subparsers.add_parser(
-        "serve", help="Start the real-time monitoring dashboard",
+        "serve",
+        help="Start the real-time monitoring dashboard",
     )
     serve_p.add_argument(
-        "--port", "-p",
+        "--port",
+        "-p",
         type=int,
         default=9090,
         help="Port to listen on (default: 9090)",
     )
     serve_p.add_argument(
-        "--log-file", "-l",
+        "--log-file",
+        "-l",
         default="./shield.jsonl",
         help="Path to the JSONL audit log (default: ./shield.jsonl)",
     )
@@ -286,10 +298,10 @@ def main(argv: Sequence[str] | None = None) -> None:
         sys.exit(0)
 
     handlers: dict[str, object] = {
-        "verify":  _cmd_verify,
-        "stats":   _cmd_stats,
-        "export":  _cmd_export,
-        "serve":   _cmd_serve,
+        "verify": _cmd_verify,
+        "stats": _cmd_stats,
+        "export": _cmd_export,
+        "serve": _cmd_serve,
         "version": _cmd_version,
     }
 

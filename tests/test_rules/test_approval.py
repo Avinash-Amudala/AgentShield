@@ -10,8 +10,8 @@ from agentshield.rules.approval import (
     RequireApprovalPatternRule,
 )
 
-
 # ── RequireApprovalPatternRule ──────────────────────────────────────
+
 
 class TestRequireApprovalPatternRule:
     @pytest.fixture
@@ -51,55 +51,45 @@ class TestRequireApprovalPatternRule:
 
 # ── RequireApprovalFinancialRule ────────────────────────────────────
 
+
 class TestRequireApprovalFinancialRule:
     @pytest.fixture
     def rule(self):
         return RequireApprovalFinancialRule()
 
     async def test_allow_no_monetary_args(self, rule):
-        ctx = ToolCallContext(
-            tool_name="send", arguments={"message": "Hello"}
-        )
+        ctx = ToolCallContext(tool_name="send", arguments={"message": "Hello"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_small_amount(self, rule):
-        ctx = ToolCallContext(
-            tool_name="payment", arguments={"amount": 50.0}
-        )
+        ctx = ToolCallContext(tool_name="payment", arguments={"amount": 50.0})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_escalate_large_amount(self, rule):
-        ctx = ToolCallContext(
-            tool_name="payment", arguments={"amount": 500.0}
-        )
+        ctx = ToolCallContext(tool_name="payment", arguments={"amount": 500.0})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ESCALATE
 
     async def test_escalate_amount_as_string(self, rule):
-        ctx = ToolCallContext(
-            tool_name="payment", arguments={"amount": "$1,500.00"}
-        )
+        ctx = ToolCallContext(tool_name="payment", arguments={"amount": "$1,500.00"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ESCALATE
 
     async def test_edge_case_cost_key(self, rule):
-        ctx = ToolCallContext(
-            tool_name="purchase", arguments={"cost": 250}
-        )
+        ctx = ToolCallContext(tool_name="purchase", arguments={"cost": 250})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ESCALATE
 
     async def test_edge_case_at_threshold(self, rule):
-        ctx = ToolCallContext(
-            tool_name="payment", arguments={"amount": 100.0}
-        )
+        ctx = ToolCallContext(tool_name="payment", arguments={"amount": 100.0})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW  # > threshold, not >=
 
 
 # ── RequireApprovalDataExportRule ───────────────────────────────────
+
 
 class TestRequireApprovalDataExportRule:
     @pytest.fixture

@@ -3,8 +3,6 @@ from __future__ import annotations
 import pytest
 
 from agentshield.core.context import ToolCallContext
-from agentshield.core.result import PolicyAction, PolicyResponse
-from agentshield import Shield
 
 
 @pytest.fixture

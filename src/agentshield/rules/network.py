@@ -1,4 +1,5 @@
 """Network access safety rules (OWASP ASI04 — Insufficient Access Controls)."""
+
 from __future__ import annotations
 
 import ipaddress
@@ -26,13 +27,9 @@ def _extract_strings(obj: Any) -> list[str]:
     return strings
 
 
-_URL_PATTERN: re.Pattern[str] = re.compile(
-    r"https?://[^\s\"'<>]+", re.IGNORECASE
-)
+_URL_PATTERN: re.Pattern[str] = re.compile(r"https?://[^\s\"'<>]+", re.IGNORECASE)
 
-_IP_PATTERN: re.Pattern[str] = re.compile(
-    r"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b"
-)
+_IP_PATTERN: re.Pattern[str] = re.compile(r"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b")
 
 
 def _extract_urls(obj: Any) -> list[str]:
@@ -78,7 +75,9 @@ class InternalNetworkAccessRule(BaseRule):
     """
 
     name: str = "internal_network_access"
-    description: str = "Block requests to private/internal IP addresses (SSRF prevention)"
+    description: str = (
+        "Block requests to private/internal IP addresses (SSRF prevention)"
+    )
     priority: int = 20
     enabled: bool = True
     owasp_id: str = "ASI04"

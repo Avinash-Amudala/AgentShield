@@ -1,4 +1,5 @@
 """Tool-call context dataclass used throughout AgentShield."""
+
 from __future__ import annotations
 
 from dataclasses import dataclass, field

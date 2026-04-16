@@ -1,4 +1,5 @@
 """Human-in-the-loop approval rules (OWASP ASI09 — Improper Output Handling)."""
+
 from __future__ import annotations
 
 import fnmatch
@@ -32,7 +33,9 @@ class RequireApprovalPatternRule(BaseRule):
     """
 
     name: str = "require_approval_pattern"
-    description: str = "Escalate tool calls matching name patterns (e.g. deploy_*, delete_prod_*)"
+    description: str = (
+        "Escalate tool calls matching name patterns (e.g. deploy_*, delete_prod_*)"
+    )
     priority: int = 40
     enabled: bool = True
     owasp_id: str = "ASI09"
@@ -86,8 +89,15 @@ class RequireApprovalFinancialRule(BaseRule):
 
     threshold_usd: float = 100.0
     monetary_arg_keys: list[str] = [
-        "amount", "price", "cost", "total", "value", "payment",
-        "charge", "fee", "budget",
+        "amount",
+        "price",
+        "cost",
+        "total",
+        "value",
+        "payment",
+        "charge",
+        "fee",
+        "budget",
     ]
 
     _CURRENCY_PATTERN: re.Pattern[str] = re.compile(
@@ -166,7 +176,12 @@ class RequireApprovalDataExportRule(BaseRule):
         "bulk_read_*",
     ]
     row_count_keys: list[str] = [
-        "limit", "row_count", "rows", "count", "batch_size", "max_rows",
+        "limit",
+        "row_count",
+        "rows",
+        "count",
+        "batch_size",
+        "max_rows",
     ]
     max_rows: int = 1000
 
@@ -181,8 +196,7 @@ class RequireApprovalDataExportRule(BaseRule):
             otherwise.
         """
         is_export_tool = any(
-            fnmatch.fnmatch(context.tool_name, pat)
-            for pat in self.export_tool_patterns
+            fnmatch.fnmatch(context.tool_name, pat) for pat in self.export_tool_patterns
         )
         if not is_export_tool:
             return PolicyResponse(

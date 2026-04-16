@@ -2,6 +2,7 @@
 
 Reads a JSONL audit log and writes a flat CSV file.  Stdlib only.
 """
+
 from __future__ import annotations
 
 import csv

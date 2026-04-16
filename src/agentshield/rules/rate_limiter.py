@@ -1,4 +1,5 @@
 """Rate limiting rules (OWASP ASI07 — Denial of Service)."""
+
 from __future__ import annotations
 
 import collections

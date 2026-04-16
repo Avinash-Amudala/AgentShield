@@ -1,4 +1,5 @@
 """Abstract base class for all AgentShield rules."""
+
 from __future__ import annotations
 
 import abc

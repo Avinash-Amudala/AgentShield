@@ -7,6 +7,7 @@ Requires:  pip install agentshield crewai crewai-tools
 
 Run:  python examples/crewai_example.py
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -15,9 +16,7 @@ from typing import Any
 try:
     from crewai.tools import BaseTool as CrewAIBaseTool
 except ImportError:
-    raise SystemExit(
-        "CrewAI not installed. Run:  pip install crewai crewai-tools"
-    )
+    raise SystemExit("CrewAI not installed. Run:  pip install crewai crewai-tools")
 
 from agentshield import Shield, ToolCallBlocked, ToolCallContext
 

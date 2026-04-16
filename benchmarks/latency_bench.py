@@ -1,4 +1,5 @@
 """Benchmark policy engine latency. Run: python benchmarks/latency_bench.py"""
+
 from __future__ import annotations
 
 import asyncio
@@ -35,7 +36,9 @@ async def bench() -> None:
     print(f"Mean:     {statistics.mean(latencies):.3f} ms")
     print(f"Std:      {statistics.stdev(latencies):.3f} ms")
 
-    assert latencies[int(len(latencies) * 0.99)] < 1.0, "p99 latency exceeded 1ms target!"
+    assert (
+        latencies[int(len(latencies) * 0.99)] < 1.0
+    ), "p99 latency exceeded 1ms target!"
     print("\nAll performance targets met!")
 
 

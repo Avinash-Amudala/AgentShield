@@ -1,4 +1,5 @@
 """Discord webhook HITL notification channel."""
+
 from __future__ import annotations
 
 import json
@@ -77,12 +78,32 @@ def _format_discord_message(payload: dict[str, Any]) -> dict[str, Any]:
         "title": "AgentShield — Approval Required",
         "color": 0xFF9900,
         "fields": [
-            {"name": "Event ID", "value": f"`{payload.get('event_id', 'N/A')}`", "inline": False},
-            {"name": "Tool", "value": f"`{payload.get('tool_name', 'N/A')}`", "inline": True},
-            {"name": "Agent", "value": f"`{payload.get('agent_id', 'N/A')}`", "inline": True},
-            {"name": "Rule", "value": f"`{payload.get('rule_name', 'N/A')}`", "inline": True},
+            {
+                "name": "Event ID",
+                "value": f"`{payload.get('event_id', 'N/A')}`",
+                "inline": False,
+            },
+            {
+                "name": "Tool",
+                "value": f"`{payload.get('tool_name', 'N/A')}`",
+                "inline": True,
+            },
+            {
+                "name": "Agent",
+                "value": f"`{payload.get('agent_id', 'N/A')}`",
+                "inline": True,
+            },
+            {
+                "name": "Rule",
+                "value": f"`{payload.get('rule_name', 'N/A')}`",
+                "inline": True,
+            },
             {"name": "Reason", "value": payload.get("reason", "N/A"), "inline": False},
-            {"name": "Arguments", "value": f"```json\n{args_repr}\n```", "inline": False},
+            {
+                "name": "Arguments",
+                "value": f"```json\n{args_repr}\n```",
+                "inline": False,
+            },
         ],
     }
 

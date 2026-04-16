@@ -1,4 +1,5 @@
 """Terminal-based HITL approval channel (stdlib only)."""
+
 from __future__ import annotations
 
 import asyncio
@@ -79,6 +80,7 @@ def _try_resolve(event_id: str, approved: bool) -> None:
     """
     try:
         from agentshield.hitl import _active_gateway  # type: ignore[attr-defined]
+
         if _active_gateway is not None:
             _active_gateway.resolve(event_id, approved, reviewer="terminal")
     except (ImportError, AttributeError, KeyError):

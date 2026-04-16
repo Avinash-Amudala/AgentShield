@@ -1,4 +1,5 @@
 """AgentShield — The runtime firewall for AI agents."""
+
 from __future__ import annotations
 
 from agentshield.core.shield import Shield

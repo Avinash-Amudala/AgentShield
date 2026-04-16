@@ -8,6 +8,7 @@ Requires:  pip install agentshield[langchain]
 
 Run:  python examples/langchain_example.py
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -50,7 +51,9 @@ class ShieldedSQLTool(BaseTool):
         try:
             asyncio.run(shield.check(ctx))
         except ToolCallBlocked as exc:
-            raise ToolException(f"Blocked by AgentShield: {exc.response.reason}") from exc
+            raise ToolException(
+                f"Blocked by AgentShield: {exc.response.reason}"
+            ) from exc
 
         return f"[result] Executed: {query}"
 
@@ -63,7 +66,9 @@ class ShieldedSQLTool(BaseTool):
         try:
             await shield.check(ctx)
         except ToolCallBlocked as exc:
-            raise ToolException(f"Blocked by AgentShield: {exc.response.reason}") from exc
+            raise ToolException(
+                f"Blocked by AgentShield: {exc.response.reason}"
+            ) from exc
 
         return f"[result] Executed: {query}"
 

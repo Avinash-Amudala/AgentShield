@@ -12,8 +12,8 @@ from agentshield.rules.shell_command import (
     ReverseShellRule,
 )
 
-
 # ── DestructiveShellRule ────────────────────────────────────────────
+
 
 class TestDestructiveShellRule:
     @pytest.fixture
@@ -26,16 +26,12 @@ class TestDestructiveShellRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_cat(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "cat README.md"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "cat README.md"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
     async def test_deny_rm_rf(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "rm -rf /"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "rm -rf /"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
@@ -65,6 +61,7 @@ class TestDestructiveShellRule:
 
 # ── ReverseShellRule ────────────────────────────────────────────────
 
+
 class TestReverseShellRule:
     @pytest.fixture
     def rule(self):
@@ -78,9 +75,7 @@ class TestReverseShellRule:
         assert result.action is PolicyAction.ALLOW
 
     async def test_allow_nc_listen(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "nc -l 8080"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "nc -l 8080"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -103,9 +98,7 @@ class TestReverseShellRule:
     async def test_edge_case_python_socket_reverse_shell(self, rule):
         ctx = ToolCallContext(
             tool_name="exec",
-            arguments={
-                "command": "python3 -c 'import socket,os; s=socket.socket()'"
-            },
+            arguments={"command": "python3 -c 'import socket,os; s=socket.socket()'"},
         )
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
@@ -121,15 +114,14 @@ class TestReverseShellRule:
 
 # ── PrivilegeEscalationRule ─────────────────────────────────────────
 
+
 class TestPrivilegeEscalationRule:
     @pytest.fixture
     def rule(self):
         return PrivilegeEscalationRule()
 
     async def test_allow_normal_command(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "echo hello"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "echo hello"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -162,14 +154,13 @@ class TestPrivilegeEscalationRule:
         assert result.action is PolicyAction.DENY
 
     async def test_edge_case_su_root(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "su root"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "su root"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.DENY
 
 
 # ── DataExfiltrationShellRule ───────────────────────────────────────
+
 
 class TestDataExfiltrationShellRule:
     @pytest.fixture
@@ -177,9 +168,7 @@ class TestDataExfiltrationShellRule:
         return DataExfiltrationShellRule()
 
     async def test_allow_echo(self, rule):
-        ctx = ToolCallContext(
-            tool_name="exec", arguments={"command": "echo hello"}
-        )
+        ctx = ToolCallContext(tool_name="exec", arguments={"command": "echo hello"})
         result = await rule.evaluate(ctx)
         assert result.action is PolicyAction.ALLOW
 
@@ -225,6 +214,7 @@ class TestDataExfiltrationShellRule:
 
 
 # ── DangerousEvalRule ───────────────────────────────────────────────
+
 
 class TestDangerousEvalRule:
     @pytest.fixture

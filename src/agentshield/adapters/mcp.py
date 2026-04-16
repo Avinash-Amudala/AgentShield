@@ -1,4 +1,5 @@
 """MCP (Model Context Protocol) server adapter for AgentShield."""
+
 from __future__ import annotations
 
 import functools
@@ -45,9 +46,7 @@ def shield_mcp_server(server: Any, shield: Shield) -> None:
             f"Expected an mcp.server.Server instance, got {type(server).__name__}"
         )
 
-    tool_handlers: dict[str, Callable[..., Any]] = getattr(
-        server, "_tool_handlers", {}
-    )
+    tool_handlers: dict[str, Callable[..., Any]] = getattr(server, "_tool_handlers", {})
     for name, handler in tool_handlers.items():
         tool_handlers[name] = _wrap_handler(handler, name, shield)
         logger.debug("Shielded MCP tool handler: %s", name)

@@ -1,4 +1,5 @@
 """YAML-defined custom pattern rules without writing Python."""
+
 from __future__ import annotations
 
 import fnmatch

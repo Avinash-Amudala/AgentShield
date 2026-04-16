@@ -1,4 +1,5 @@
 """Configuration loading for AgentShield."""
+
 from __future__ import annotations
 
 import logging
@@ -73,8 +74,7 @@ def _load_yaml(path: Path) -> dict[str, Any]:
         import yaml  # type: ignore[import-untyped]
     except ImportError:
         raise ImportError(
-            f"PyYAML is required to load {path}. Install it with: "
-            "pip install pyyaml"
+            f"PyYAML is required to load {path}. Install it with: " "pip install pyyaml"
         ) from None
 
     with open(path, encoding="utf-8") as fh:

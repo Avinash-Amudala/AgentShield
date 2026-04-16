@@ -1,4 +1,5 @@
 """Cost guardrail rules (OWASP ASI07 — Denial of Service / runaway spend)."""
+
 from __future__ import annotations
 
 from agentshield.core.context import ToolCallContext
@@ -74,7 +75,9 @@ class CostAlertRule(BaseRule):
     """
 
     name: str = "cost_alert"
-    description: str = "Escalate when session cost reaches alert threshold (default 80%)"
+    description: str = (
+        "Escalate when session cost reaches alert threshold (default 80%)"
+    )
     priority: int = 36
     enabled: bool = True
     owasp_id: str = "ASI07"

@@ -6,6 +6,7 @@ deletion is detectable by :class:`AuditVerifier`.
 
 **Stdlib only** — no third-party dependencies.
 """
+
 from __future__ import annotations
 
 import hashlib
@@ -90,9 +91,7 @@ class AuditLogger:
         """Construct a log-entry dict and compute its chain hash."""
         entry: dict = {
             "id": str(uuid4()),
-            "timestamp": datetime.now(timezone.utc).strftime(
-                "%Y-%m-%dT%H:%M:%S.%fZ"
-            ),
+            "timestamp": datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "tool_name": context.tool_name,
             "arguments_hash": self._hash_arguments(context.arguments),
             "agent_id": context.agent_id,

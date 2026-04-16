@@ -4,11 +4,10 @@ import pytest
 
 from agentshield import Shield, ToolCallBlocked
 from agentshield.adapters.generic import protect_class_method, protect_function
-from agentshield.core.result import PolicyAction
 from agentshield.rules.sql_injection import DestructiveSQLRule
 
-
 # ── protect_function ────────────────────────────────────────────────
+
 
 class TestProtectFunction:
     async def test_protect_async_function_allows_safe(self):
@@ -75,6 +74,7 @@ class TestProtectFunction:
 
 # ── protect_class_method ────────────────────────────────────────────
 
+
 class TestProtectClassMethod:
     def test_protect_method_allows_safe(self):
         shield = Shield(rules=[DestructiveSQLRule()], mode="enforce")
@@ -119,9 +119,7 @@ class TestProtectClassMethod:
             def action(self, data: str) -> str:
                 return data
 
-        protect_class_method(
-            MyService, "action", shield, tool_name="custom_action"
-        )
+        protect_class_method(MyService, "action", shield, tool_name="custom_action")
         svc = MyService()
         result = svc.action(data="test")
         assert result == "test"

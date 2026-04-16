@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-import pytest
 
 from agentshield.core.context import ToolCallContext
 from agentshield.core.result import PolicyAction
@@ -10,8 +9,8 @@ from agentshield.rules.rate_limiter import (
     SessionRateLimitRule,
 )
 
-
 # ── PerToolRateLimitRule ────────────────────────────────────────────
+
 
 class TestPerToolRateLimitRule:
     def _make_rule(self, max_calls: int = 3, window_seconds: float = 60.0):
@@ -21,9 +20,7 @@ class TestPerToolRateLimitRule:
         return rule
 
     def _ctx(self, tool_name: str = "test_tool", session_id: str = "sess1"):
-        return ToolCallContext(
-            tool_name=tool_name, arguments={}, session_id=session_id
-        )
+        return ToolCallContext(tool_name=tool_name, arguments={}, session_id=session_id)
 
     async def test_allow_first_call(self):
         rule = self._make_rule(max_calls=5)
@@ -60,6 +57,7 @@ class TestPerToolRateLimitRule:
 
 
 # ── SessionRateLimitRule ────────────────────────────────────────────
+
 
 class TestSessionRateLimitRule:
     def _make_rule(self, max_calls: int = 5, window_seconds: float = 3600.0):
@@ -101,12 +99,8 @@ class TestSessionRateLimitRule:
 
     async def test_edge_case_counts_all_tools_in_session(self):
         rule = self._make_rule(max_calls=3)
-        ctx1 = ToolCallContext(
-            tool_name="tool_a", arguments={}, session_id="sess"
-        )
-        ctx2 = ToolCallContext(
-            tool_name="tool_b", arguments={}, session_id="sess"
-        )
+        ctx1 = ToolCallContext(tool_name="tool_a", arguments={}, session_id="sess")
+        ctx2 = ToolCallContext(tool_name="tool_b", arguments={}, session_id="sess")
         await rule.evaluate(ctx1)
         await rule.evaluate(ctx2)
         await rule.evaluate(ctx1)
@@ -115,6 +109,7 @@ class TestSessionRateLimitRule:
 
 
 # ── BurstDetectionRule ──────────────────────────────────────────────
+
 
 class TestBurstDetectionRule:
     def _make_rule(self, max_burst: int = 3):

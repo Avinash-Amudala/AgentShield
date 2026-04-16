@@ -1,4 +1,5 @@
 """SQL injection detection rules (OWASP ASI02 — Tool Misuse)."""
+
 from __future__ import annotations
 
 import re
@@ -31,7 +32,9 @@ class DestructiveSQLRule(BaseRule):
     """
 
     name: str = "destructive_sql"
-    description: str = "Block destructive SQL statements (DROP, TRUNCATE, DELETE without WHERE)"
+    description: str = (
+        "Block destructive SQL statements (DROP, TRUNCATE, DELETE without WHERE)"
+    )
     priority: int = 10
     enabled: bool = True
     owasp_id: str = "ASI02"
@@ -60,7 +63,10 @@ class DestructiveSQLRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"Destructive SQL detected: {match.group()}",
-                        details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -103,7 +109,10 @@ class SQLUnionInjectionRule(BaseRule):
                     action=PolicyAction.DENY,
                     rule_name=self.name,
                     reason=f"UNION injection detected: {match.group()}",
-                    details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                    details={
+                        "matched_pattern": match.group(),
+                        "value_snippet": value[:200],
+                    },
                     owasp_id=self.owasp_id,
                 )
         return PolicyResponse(
@@ -149,7 +158,10 @@ class SQLCommentInjectionRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"SQL comment injection detected: {match.group()!r}",
-                        details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(
@@ -192,8 +204,11 @@ class SQLBatchExecutionRule(BaseRule):
                 return PolicyResponse(
                     action=PolicyAction.ESCALATE,
                     rule_name=self.name,
-                    reason=f"SQL batch execution detected: multiple statements separated by ';'",
-                    details={"matched_pattern": match.group(), "value_snippet": value[:200]},
+                    reason="SQL batch execution detected: multiple statements separated by ';'",
+                    details={
+                        "matched_pattern": match.group(),
+                        "value_snippet": value[:200],
+                    },
                     owasp_id=self.owasp_id,
                 )
         return PolicyResponse(
@@ -239,7 +254,10 @@ class SQLAdminCommandsRule(BaseRule):
                         action=PolicyAction.DENY,
                         rule_name=self.name,
                         reason=f"SQL admin command detected: {match.group().strip()}",
-                        details={"matched_pattern": match.group().strip(), "value_snippet": value[:200]},
+                        details={
+                            "matched_pattern": match.group().strip(),
+                            "value_snippet": value[:200],
+                        },
                         owasp_id=self.owasp_id,
                     )
         return PolicyResponse(

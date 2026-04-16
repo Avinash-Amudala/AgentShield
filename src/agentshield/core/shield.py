@@ -1,4 +1,5 @@
 """Shield — the main entry-point for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio
@@ -27,6 +28,7 @@ def _get_default_rules() -> list[BaseRule]:
     """
     try:
         from agentshield.rules import DEFAULT_RULES  # type: ignore[attr-defined]
+
         return list(DEFAULT_RULES)
     except (ImportError, AttributeError):
         return []
@@ -60,9 +62,7 @@ class Shield:
         default_action: PolicyAction = PolicyAction.ALLOW,
     ) -> None:
         if mode not in _MODES:
-            raise ValueError(
-                f"Invalid mode {mode!r}. Must be one of {sorted(_MODES)}."
-            )
+            raise ValueError(f"Invalid mode {mode!r}. Must be one of {sorted(_MODES)}.")
 
         self.mode = mode
         self.config_path = Path(config_path) if config_path else None
@@ -100,9 +100,7 @@ class Shield:
         ):
             fh = logging.FileHandler(self.log_file, encoding="utf-8")
             fh.setLevel(logging.DEBUG)
-            fh.setFormatter(
-                logging.Formatter("%(asctime)s %(levelname)s %(message)s")
-            )
+            fh.setFormatter(logging.Formatter("%(asctime)s %(levelname)s %(message)s"))
             audit.addHandler(fh)
 
         return audit
@@ -236,6 +234,7 @@ class Shield:
 
                 if loop is not None and loop.is_running():
                     import concurrent.futures
+
                     with concurrent.futures.ThreadPoolExecutor(max_workers=1) as pool:
                         future = pool.submit(asyncio.run, self.check(ctx))
                         future.result()

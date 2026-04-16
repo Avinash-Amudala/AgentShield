@@ -1,4 +1,5 @@
 """Credential and sensitive-data leak rules (OWASP ASI04)."""
+
 from __future__ import annotations
 
 import re
@@ -85,9 +86,13 @@ class TokenLeakRule(BaseRule):
     owasp_id: str = "ASI04"
 
     _PATTERNS: dict[str, re.Pattern[str]] = {
-        "JWT": re.compile(r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"),
+        "JWT": re.compile(
+            r"\beyJ[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\.[A-Za-z0-9_-]{10,}\b"
+        ),
         "Bearer Token": re.compile(r"\bBearer\s+[A-Za-z0-9_\-.~+/]{20,}\b"),
-        "OAuth Token": re.compile(r"\boauth[_-]?token[\"':\s=]+[A-Za-z0-9_\-.]{20,}", re.IGNORECASE),
+        "OAuth Token": re.compile(
+            r"\boauth[_-]?token[\"':\s=]+[A-Za-z0-9_\-.]{20,}", re.IGNORECASE
+        ),
     }
 
     async def evaluate(self, context: ToolCallContext) -> PolicyResponse:
@@ -131,12 +136,8 @@ class PIILeakRule(BaseRule):
     enabled: bool = True
     owasp_id: str = "ASI04"
 
-    _SSN_PATTERN: re.Pattern[str] = re.compile(
-        r"\b\d{3}-\d{2}-\d{4}\b"
-    )
-    _CC_PATTERN: re.Pattern[str] = re.compile(
-        r"\b(?:\d[ -]*?){13,19}\b"
-    )
+    _SSN_PATTERN: re.Pattern[str] = re.compile(r"\b\d{3}-\d{2}-\d{4}\b")
+    _CC_PATTERN: re.Pattern[str] = re.compile(r"\b(?:\d[ -]*?){13,19}\b")
     _EMAIL_PATTERN: re.Pattern[str] = re.compile(
         r"\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b"
     )
@@ -182,7 +183,10 @@ class PIILeakRule(BaseRule):
                         action=PolicyAction.ESCALATE,
                         rule_name=self.name,
                         reason="Possible credit card number detected in tool arguments",
-                        details={"pii_type": "credit_card", "masked": raw[:4] + "****" + raw[-4:]},
+                        details={
+                            "pii_type": "credit_card",
+                            "masked": raw[:4] + "****" + raw[-4:],
+                        },
                         owasp_id=self.owasp_id,
                     )
             if self._EMAIL_PATTERN.search(value):
@@ -262,7 +266,9 @@ class EnvVarLeakRule(BaseRule):
     """
 
     name: str = "env_var_leak"
-    description: str = "Escalate references to env vars containing SECRET, KEY, TOKEN, PASSWORD"
+    description: str = (
+        "Escalate references to env vars containing SECRET, KEY, TOKEN, PASSWORD"
+    )
     priority: int = 11
     enabled: bool = True
     owasp_id: str = "ASI04"

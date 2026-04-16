@@ -1,7 +1,7 @@
 """Scope enforcement rules (OWASP ASI03 / ASI06)."""
+
 from __future__ import annotations
 
-from typing import Any
 
 from agentshield.core.context import ToolCallContext
 from agentshield.core.result import PolicyAction, PolicyResponse
@@ -186,7 +186,8 @@ class CrossAgentScopeRule(BaseRule):
             )
 
         owning_agents = [
-            aid for aid, tools in self.agent_scopes.items()
+            aid
+            for aid, tools in self.agent_scopes.items()
             if context.tool_name in tools
         ]
         return PolicyResponse(

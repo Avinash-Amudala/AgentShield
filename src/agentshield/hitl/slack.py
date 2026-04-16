@@ -1,4 +1,5 @@
 """Slack webhook HITL notification channel."""
+
 from __future__ import annotations
 
 import json

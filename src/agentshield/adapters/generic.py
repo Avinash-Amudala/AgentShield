@@ -1,4 +1,5 @@
 """Generic (framework-agnostic) adapter utilities for AgentShield."""
+
 from __future__ import annotations
 
 import asyncio
@@ -7,7 +8,6 @@ import inspect
 from typing import Any, Callable
 
 from agentshield.core.context import ToolCallContext
-from agentshield.core.result import PolicyAction
 from agentshield.core.shield import Shield
 
 

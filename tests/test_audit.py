@@ -2,7 +2,6 @@ from __future__ import annotations
 
 import json
 
-import pytest
 
 from agentshield.audit.logger import AuditLogger
 from agentshield.audit.verifier import AuditVerifier
@@ -28,6 +27,7 @@ def _make_response(
 
 
 # ── AuditLogger ─────────────────────────────────────────────────────
+
 
 class TestAuditLoggerEntryCreation:
     async def test_log_creates_entry_with_required_fields(self, tmp_path):
@@ -67,7 +67,7 @@ class TestAuditLoggerEntryCreation:
         await logger.log(ctx, resp)
 
         content = log_file.read_text(encoding="utf-8")
-        lines = [l for l in content.strip().split("\n") if l.strip()]
+        lines = [line for line in content.strip().split("\n") if line.strip()]
         assert len(lines) == 1
         parsed = json.loads(lines[0])
         assert parsed["tool_name"] == "test_tool"
@@ -135,6 +135,7 @@ class TestAuditLoggerResume:
 
 
 # ── AuditVerifier ───────────────────────────────────────────────────
+
 
 class TestAuditVerifierValid:
     async def test_verify_valid_single_entry(self, tmp_path):

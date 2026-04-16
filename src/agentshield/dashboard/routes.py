@@ -3,6 +3,7 @@
 Separated from :mod:`app` to keep the FastAPI dependency isolated
 and the route logic testable.
 """
+
 from __future__ import annotations
 
 import asyncio
@@ -70,9 +71,15 @@ def _compute_stats(events: list[dict]) -> dict[str, Any]:
         "allowed": action_counts.get("allow", 0),
         "denied": action_counts.get("deny", 0),
         "escalated": action_counts.get("escalate", 0),
-        "allow_pct": round(action_counts.get("allow", 0) / total * 100, 1) if total else 0,
-        "deny_pct": round(action_counts.get("deny", 0) / total * 100, 1) if total else 0,
-        "escalate_pct": round(action_counts.get("escalate", 0) / total * 100, 1) if total else 0,
+        "allow_pct": (
+            round(action_counts.get("allow", 0) / total * 100, 1) if total else 0
+        ),
+        "deny_pct": (
+            round(action_counts.get("deny", 0) / total * 100, 1) if total else 0
+        ),
+        "escalate_pct": (
+            round(action_counts.get("escalate", 0) / total * 100, 1) if total else 0
+        ),
         "top_rules": rule_counts.most_common(10),
         "top_tools": tool_counts.most_common(10),
         "timeline": sorted(hourly_buckets.items()),
@@ -87,7 +94,12 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
         dashboard: The parent :class:`DashboardApp` that manages state.
     """
     from fastapi import Query
-    from fastapi.responses import HTMLResponse, JSONResponse, StreamingResponse, Response
+    from fastapi.responses import (
+        HTMLResponse,
+        JSONResponse,
+        StreamingResponse,
+        Response,
+    )
 
     _FRONTEND_PATH = Path(__file__).parent / "frontend" / "index.html"
 
@@ -141,29 +153,34 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
         events = _load_events_from_file(dashboard.log_file)
         events.reverse()
         page = events[offset : offset + limit]
-        return JSONResponse(content={
-            "total": len(events),
-            "offset": offset,
-            "limit": limit,
-            "events": page,
-        })
+        return JSONResponse(
+            content={
+                "total": len(events),
+                "offset": offset,
+                "limit": limit,
+                "events": page,
+            }
+        )
 
     @app.get("/api/rules")
     async def get_rules() -> JSONResponse:
         """Return information about registered rules."""
         try:
             from agentshield.rules import ALL_RULE_CLASSES
+
             rules_info = []
             for cls in ALL_RULE_CLASSES:
                 instance = cls()
-                rules_info.append({
-                    "name": instance.name,
-                    "description": instance.description,
-                    "priority": instance.priority,
-                    "enabled": instance.enabled,
-                    "owasp_id": instance.owasp_id or "",
-                    "class": cls.__name__,
-                })
+                rules_info.append(
+                    {
+                        "name": instance.name,
+                        "description": instance.description,
+                        "priority": instance.priority,
+                        "enabled": instance.enabled,
+                        "owasp_id": instance.owasp_id or "",
+                        "class": cls.__name__,
+                    }
+                )
             return JSONResponse(content={"rules": rules_info})
         except Exception as exc:
             return JSONResponse(
@@ -183,14 +200,16 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
             "decision": "approved",
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        dashboard.push_event({
-            "id": event_id,
-            "action": "approved",
-            "timestamp": approval["timestamp"],
-            "tool_name": "",
-            "rule_name": "manual_review",
-            "reason": "Approved by operator via dashboard",
-        })
+        dashboard.push_event(
+            {
+                "id": event_id,
+                "action": "approved",
+                "timestamp": approval["timestamp"],
+                "tool_name": "",
+                "rule_name": "manual_review",
+                "reason": "Approved by operator via dashboard",
+            }
+        )
         return JSONResponse(content=approval)
 
     @app.post("/deny/{event_id}")
@@ -205,14 +224,16 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
             "decision": "denied",
             "timestamp": datetime.now(timezone.utc).isoformat(),
         }
-        dashboard.push_event({
-            "id": event_id,
-            "action": "denied",
-            "timestamp": denial["timestamp"],
-            "tool_name": "",
-            "rule_name": "manual_review",
-            "reason": "Denied by operator via dashboard",
-        })
+        dashboard.push_event(
+            {
+                "id": event_id,
+                "action": "denied",
+                "timestamp": denial["timestamp"],
+                "tool_name": "",
+                "rule_name": "manual_review",
+                "reason": "Denied by operator via dashboard",
+            }
+        )
         return JSONResponse(content=denial)
 
     @app.get("/api/export")
@@ -230,7 +251,9 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
             return Response(
                 content=json.dumps(events, indent=2),
                 media_type="application/json",
-                headers={"Content-Disposition": "attachment; filename=shield_audit.json"},
+                headers={
+                    "Content-Disposition": "attachment; filename=shield_audit.json"
+                },
             )
 
         buf = io.StringIO()
