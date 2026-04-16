@@ -5,8 +5,8 @@
 **The runtime firewall for AI agents.**
 **Protect any agent in 3 lines of code.**
 
-[![PyPI](https://img.shields.io/pypi/v/agentshield)](https://pypi.org/project/agentshield/)
-[![Python](https://img.shields.io/pypi/pyversions/agentshield)](https://pypi.org/project/agentshield/)
+[![PyPI](https://img.shields.io/pypi/v/agentshield-fw)](https://pypi.org/project/agentshield-fw/)
+[![Python](https://img.shields.io/pypi/pyversions/agentshield-fw)](https://pypi.org/project/agentshield-fw/)
 [![CI](https://github.com/Avinash-Amudala/AgentShield/actions/workflows/ci.yml/badge.svg)](https://github.com/Avinash-Amudala/AgentShield/actions)
 [![Coverage](https://codecov.io/gh/Avinash-Amudala/AgentShield/branch/main/graph/badge.svg)](https://codecov.io/gh/Avinash-Amudala/AgentShield)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
@@ -18,7 +18,7 @@
 ## Quickstart
 
 ```bash
-pip install agentshield
+pip install agentshield-fw
 ```
 
 ```python
@@ -158,23 +158,23 @@ custom_rules:
 
 ```bash
 # Core (zero dependencies)
-pip install agentshield
+pip install agentshield-fw
 
 # With specific integrations
-pip install agentshield[config]       # YAML config support (PyYAML)
-pip install agentshield[mcp]          # MCP server support
-pip install agentshield[langchain]    # LangChain adapter
-pip install agentshield[crewai]       # CrewAI adapter
-pip install agentshield[openai]       # OpenAI Agents SDK
-pip install agentshield[dashboard]    # Real-time dashboard
-pip install agentshield[hitl]         # Human-in-the-loop gateway
-pip install agentshield[otel]         # OpenTelemetry export
+pip install "agentshield-fw[config]"       # YAML config support (PyYAML)
+pip install "agentshield-fw[mcp]"          # MCP server support
+pip install "agentshield-fw[langchain]"    # LangChain adapter
+pip install "agentshield-fw[crewai]"       # CrewAI adapter
+pip install "agentshield-fw[openai]"       # OpenAI Agents SDK
+pip install "agentshield-fw[dashboard]"    # Real-time dashboard
+pip install "agentshield-fw[hitl]"         # Human-in-the-loop gateway
+pip install "agentshield-fw[otel]"         # OpenTelemetry export
 
 # Everything
-pip install agentshield[all]
+pip install "agentshield-fw[all]"
 
 # Development
-pip install agentshield[dev]
+pip install -e ".[dev]"
 ```
 
 ---

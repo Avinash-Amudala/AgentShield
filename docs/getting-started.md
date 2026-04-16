@@ -8,21 +8,21 @@ Get AgentShield running in under 5 minutes.
 
 ```bash
 # Core library (zero dependencies)
-pip install agentshield
+pip install agentshield-fw
 ```
 
 ### Optional Extras
 
 ```bash
-pip install agentshield[mcp]          # MCP server support
-pip install agentshield[langchain]    # LangChain adapter
-pip install agentshield[crewai]       # CrewAI adapter
-pip install agentshield[openai]       # OpenAI Agents SDK
-pip install agentshield[dashboard]    # Real-time dashboard
-pip install agentshield[hitl]         # Human-in-the-loop gateway
-pip install agentshield[otel]         # OpenTelemetry export
-pip install agentshield[all]          # Everything
-pip install agentshield[dev]          # Development tools
+pip install "agentshield-fw[mcp]"          # MCP server support
+pip install "agentshield-fw[langchain]"    # LangChain adapter
+pip install "agentshield-fw[crewai]"       # CrewAI adapter
+pip install "agentshield-fw[openai]"       # OpenAI Agents SDK
+pip install "agentshield-fw[dashboard]"    # Real-time dashboard
+pip install "agentshield-fw[hitl]"         # Human-in-the-loop gateway
+pip install "agentshield-fw[otel]"         # OpenTelemetry export
+pip install "agentshield-fw[all]"          # Everything
+pip install -e ".[dev]"                    # Development tools
 ```
 
 ---

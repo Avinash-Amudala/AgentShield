@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "agentshield"
+name = "agentshield-fw"
 version = "0.1.0"
 description = "The runtime firewall for AI agents. Protect any agent in 3 lines of code."
 readme = "README.md"
@@ -46,7 +46,7 @@ dev = [
     "pyyaml>=6.0",
 ]
 docs = ["mkdocs-material>=9.5", "mkdocstrings[python]>=0.25"]
-all = ["agentshield[config,dashboard,hitl,langchain,crewai,mcp,openai,otel]"]
+all = ["agentshield-fw[config,dashboard,hitl,langchain,crewai,mcp,openai,otel]"]
 
 [project.urls]
 Homepage = "https://github.com/Avinash-Amudala/AgentShield"
