@@ -23,7 +23,7 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: pip install -e ".[dev]"
+        run: pip install -e ".[dev,dashboard,hitl,config]"
       - name: Lint
         run: |
           ruff check src/ tests/ --select E,F,W --ignore E501
@@ -41,10 +41,13 @@ jobs:
           token: ${{ secrets.CODECOV_TOKEN }}
           fail_ci_if_error: false
       - name: Upload test results to Codecov
-        if: ${{ !cancelled() }}
-        uses: codecov/test-results-action@v1
+        if: ${{ !cancelled() && matrix.python-version == '3.12' }}
+        uses: codecov/codecov-action@v5
         with:
+          files: ./junit.xml
           token: ${{ secrets.CODECOV_TOKEN }}
+          report_type: test_results
+          fail_ci_if_error: false
 
   publish:
     needs: test

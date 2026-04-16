@@ -144,7 +144,7 @@ class TestDashboardRoutes:
 class TestDashboardStaleSubscriber:
     def test_stale_subscriber_removed(self, tmp_path: Path):
         app = DashboardApp(audit_log_file=tmp_path / "a.jsonl")
-        q = app.subscribe()
+        app.subscribe()
         q_full = asyncio.Queue(maxsize=1)
         with app._lock:
             app._subscribers.append(q_full)
@@ -155,8 +155,6 @@ class TestDashboardStaleSubscriber:
 
 class TestDashboardMissingFastAPI:
     def test_require_fastapi_missing(self):
-        import sys
-
         with mock.patch.dict("sys.modules", {"fastapi": None}):
             from agentshield.dashboard.app import _require_fastapi
 

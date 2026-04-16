@@ -3,15 +3,12 @@
 from __future__ import annotations
 
 import asyncio
-import importlib
-import sys
 from types import ModuleType
-from typing import Any
 from unittest import mock
 
 import pytest
 
-from agentshield import Shield, ToolCallBlocked, ToolCallContext
+from agentshield import Shield, ToolCallBlocked
 from agentshield.core.result import PolicyAction, PolicyResponse
 from agentshield.rules.base import BaseRule
 
