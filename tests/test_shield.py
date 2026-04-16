@@ -169,3 +169,76 @@ class TestShieldRepr:
         r = repr(shield)
         assert "enforce" in r
         assert "rules=1" in r
+
+    def test_repr_shows_log_file_when_set(self, tmp_path):
+        log = tmp_path / "test.jsonl"
+        shield = Shield(rules=[], mode="enforce", log_file=str(log))
+        r = repr(shield)
+        assert "log_file=" in r
+
+    def test_repr_hides_log_file_when_none(self):
+        shield = Shield(rules=[], mode="enforce")
+        r = repr(shield)
+        assert "log_file" not in r
+
+
+class TestShieldAuditIntegration:
+    """Verify Shield writes hash-chained JSONL via AuditLogger."""
+
+    async def test_check_writes_audit_entry(self, tmp_path):
+        import json
+
+        log_file = tmp_path / "audit.jsonl"
+        shield = Shield(rules=[], mode="enforce", log_file=str(log_file))
+        ctx = ToolCallContext(tool_name="read_file", arguments={"path": "/tmp/a"})
+
+        await shield.check(ctx)
+
+        content = log_file.read_text(encoding="utf-8").strip()
+        entry = json.loads(content)
+        assert entry["tool_name"] == "read_file"
+        assert entry["prev_hash"] == "genesis"
+        assert entry["entry_hash"].startswith("sha256:")
+
+    async def test_no_audit_file_when_log_file_is_none(self, tmp_path):
+        shield = Shield(rules=[], mode="enforce")
+        ctx = ToolCallContext(tool_name="safe", arguments={})
+        await shield.check(ctx)
+        assert shield.audit_logger is None
+
+    async def test_hash_chain_across_calls(self, tmp_path):
+        import json
+
+        log_file = tmp_path / "chain.jsonl"
+        shield = Shield(rules=[], mode="enforce", log_file=str(log_file))
+        ctx = ToolCallContext(tool_name="t", arguments={})
+
+        await shield.check(ctx)
+        await shield.check(ctx)
+
+        lines = log_file.read_text(encoding="utf-8").strip().split("\n")
+        e1 = json.loads(lines[0])
+        e2 = json.loads(lines[1])
+        assert e2["prev_hash"] == e1["entry_hash"]
+
+
+class TestShieldConfigIntegration:
+    """Verify Shield loads and applies agentshield.yaml config."""
+
+    async def test_config_sets_mode(self, tmp_path):
+        cfg = tmp_path / "agentshield.yaml"
+        cfg.write_text("mode: monitor\n", encoding="utf-8")
+        shield = Shield(config_path=str(cfg), rules=[])
+        assert shield.mode == "monitor"
+
+    async def test_constructor_overrides_config(self, tmp_path):
+        cfg = tmp_path / "agentshield.yaml"
+        cfg.write_text("mode: monitor\n", encoding="utf-8")
+        shield = Shield(config_path=str(cfg), rules=[], mode="enforce")
+        assert shield.mode == "enforce"
+
+    def test_missing_config_raises(self, tmp_path):
+        import pytest
+
+        with pytest.raises(FileNotFoundError):
+            Shield(config_path=str(tmp_path / "missing.yaml"), rules=[])

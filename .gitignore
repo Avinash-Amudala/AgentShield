@@ -23,6 +23,7 @@ env/
 
 # Coverage
 .coverage
+coverage.xml
 htmlcov/
 
 # Audit logs (may contain sensitive data)
@@ -31,6 +32,10 @@ shield.jsonl
 # IDE directories (preserve .cursor rules)
 .idea/
 .vscode/
+
+# OS-generated files
+.DS_Store
+Thumbs.db
 
 # Node (dashboard frontend)
 node_modules/

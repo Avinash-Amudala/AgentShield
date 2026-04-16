@@ -91,7 +91,7 @@ AgentShield maps every rule to the [OWASP Top 10 for Agentic Applications](https
 | ASI05 | Memory Poisoning | `require_approval_pattern`, input sanitization |
 | ASI06 | Rogue Agent | `tool_allowlist`, `rate_limiter`, `cost_guard` |
 | ASI07 | Cascading Failures | `per_tool_rate_limit`, `session_rate_limit`, `burst_detection`, `session_cost_ceiling` |
-| ASI08 | Insufficient Logging | Hash-chained JSONL audit logger with SHA-256 tamper detection |
+| ASI08 | Insufficient Logging | Hash-chained JSONL audit logger with SHA-256 tamper detection (`agentshield verify`) |
 | ASI09 | Human Override Failure | HITL gateway with Slack, Discord, and terminal channels |
 | ASI10 | Multi-Agent Exploitation | `cross_agent_scope`, `agent_id_validation` |
 
@@ -102,7 +102,9 @@ AgentShield maps every rule to the [OWASP Top 10 for Agentic Applications](https
 Create an `agentshield.yaml` in your project root:
 
 ```yaml
-mode: enforce        # enforce | monitor | disabled
+mode: enforce        # enforce | monitor | dry-run
+
+log_file: shield.jsonl
 
 rules:
   destructive_sql:
@@ -126,13 +128,11 @@ rules:
       - search_web
 
 hitl:
-  channel: slack
-  webhook_url: ${SLACK_WEBHOOK_URL}
-  timeout_seconds: 300
-
-audit:
-  file: shield.jsonl
-  hash_chain: true
+  timeout: 300
+  timeout_action: deny
+  channels:
+    - type: slack
+      webhook_url: ${SLACK_WEBHOOK_URL}
 
 custom_rules:
   - name: block_twitter_posts
@@ -161,6 +161,7 @@ custom_rules:
 pip install agentshield
 
 # With specific integrations
+pip install agentshield[config]       # YAML config support (PyYAML)
 pip install agentshield[mcp]          # MCP server support
 pip install agentshield[langchain]    # LangChain adapter
 pip install agentshield[crewai]       # CrewAI adapter

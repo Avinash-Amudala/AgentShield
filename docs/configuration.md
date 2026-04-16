@@ -19,10 +19,10 @@ Configuration is resolved in this order (later overrides earlier):
 ## Complete YAML Reference
 
 ```yaml
-# Operating mode: enforce | monitor | disabled
-#   enforce  — block/escalate tool calls that violate policies
+# Operating mode: enforce | monitor | dry-run
+#   enforce  — block tool calls that violate policies, escalate to HITL
 #   monitor  — log violations but allow all calls through
-#   disabled — no policy evaluation, no logging
+#   dry-run  — log violations and print what *would* be blocked
 mode: enforce
 
 # Rule configuration
@@ -197,16 +197,14 @@ rules:
 
 # Human-in-the-loop configuration
 hitl:
-  channel: terminal           # slack | discord | terminal
-  timeout_seconds: 300        # how long to wait for human response
-  default_action: deny        # action if timeout: deny | allow
-
-  slack:
-    webhook_url: ${SLACK_WEBHOOK_URL}
-    channel: "#agent-approvals"
-
-  discord:
-    webhook_url: ${DISCORD_WEBHOOK_URL}
+  timeout: 300                # seconds to wait for a human response
+  timeout_action: deny        # action on timeout: deny | allow
+  channels:
+    - type: terminal          # built-in interactive terminal prompt
+    - type: slack
+      webhook_url: ${SLACK_WEBHOOK_URL}
+    - type: discord
+      webhook_url: ${DISCORD_WEBHOOK_URL}
 
 # Audit logging
 audit:
@@ -256,16 +254,14 @@ custom_rules:
 
 ```python
 from agentshield import Shield
-from agentshield.core.config import ShieldConfig
 
-config = ShieldConfig(
+# Programmatic overrides take precedence over YAML and env vars
+shield = Shield(
     mode="enforce",
-    rules={
-        "destructive_sql": {"enabled": True, "action": "deny"},
-        "rate_limiter": {"enabled": True, "max_calls": 50},
-    },
-    audit={"file": "my-audit.jsonl", "hash_chain": True},
+    log_file="my-audit.jsonl",
+    config_path="agentshield.yaml",  # optional — auto-discovered from CWD
 )
 
-shield = Shield(config=config)
+# Or use a YAML config and only override specific values
+shield = Shield(config_path="production.yaml", mode="monitor")
 ```

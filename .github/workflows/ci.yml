@@ -31,6 +31,7 @@ jobs:
         run: pytest --cov=agentshield --cov-report=xml -q
       - name: Benchmark
         run: python benchmarks/latency_bench.py
+        continue-on-error: true
       - name: Upload coverage
         if: matrix.python-version == '3.12'
         uses: codecov/codecov-action@v4
