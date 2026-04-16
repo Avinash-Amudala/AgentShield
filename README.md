@@ -11,28 +11,17 @@
 [![Coverage](https://codecov.io/gh/Avinash-Amudala/AgentShield/branch/main/graph/badge.svg)](https://codecov.io/gh/Avinash-Amudala/AgentShield)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
+<br>
+
+<img src="assets/social-card.png" alt="AgentShield — The runtime firewall for AI agents" width="600">
+
 </div>
 
 ---
 
 ## Quickstart
 
-```bash
-pip install agentshield-fw
-```
-
-```python
-import agentshield
-
-shield = agentshield.Shield()
-
-@shield.protect
-def execute_sql(query: str) -> str:
-    return db.execute(query)
-
-# Agent calls execute_sql("DROP TABLE users")
-# -> Blocked by AgentShield: Destructive SQL detected (ASI02)
-```
+<img src="assets/quickstart.svg" alt="AgentShield quickstart — 3 lines of code" width="700">
 
 That's it. Your agent is now protected with 39 built-in safety rules.
 
@@ -52,6 +41,10 @@ AgentShield is a **runtime firewall**. It sits between your agent and its tools,
 | **Analogy** | SAST / code review | WAF / runtime firewall |
 
 **Others scan your config. AgentShield protects your agent while it runs.**
+
+### See it in action
+
+<img src="assets/demo-hero.svg" alt="AgentShield blocks SQL injection, prompt injection, reverse shells, SSRF, and credential leaks in real time" width="700">
 
 ---
 
@@ -101,6 +94,12 @@ AgentShield fixes this in 3 lines of code. Zero dependencies in the core. Sub-mi
 AgentShield is benchmarked against the [OWASP Top 10 for Agentic Applications](https://owasp.org/www-project-top-10-for-agentic-applications/) with 5 adversarial scenarios per category. Every scenario is detected.
 
 Run it yourself: `python benchmarks/owasp_coverage.py`
+
+<details open>
+<summary><strong>Visual scorecard</strong></summary>
+<br>
+<img src="assets/owasp-scorecard.svg" alt="OWASP 50/50 scorecard" width="700">
+</details>
 
 | ID | Threat | Score | Rules that fire |
 |---|---|:---:|---|
