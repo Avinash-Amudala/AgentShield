@@ -78,14 +78,14 @@ async def _demo_check(
     try:
         response = await shield.check(ctx)
         print(
-            f"{GREEN}{BOLD}  ✓ ALLOWED{RESET}  "
+            f"{GREEN}{BOLD}  ALLOWED{RESET}  "
             f"{DIM}rule={response.rule_name!r}  reason={response.reason!r}{RESET}"
         )
     except ToolCallBlocked as exc:
         resp = exc.response
         owasp = f"  owasp={resp.owasp_id}" if resp.owasp_id else ""
         print(
-            f"{RED}{BOLD}  ✗ BLOCKED{RESET}  "
+            f"{RED}{BOLD}  BLOCKED{RESET}  "
             f"{DIM}rule={resp.rule_name!r}  reason={resp.reason!r}{owasp}{RESET}"
         )
 

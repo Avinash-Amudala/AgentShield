@@ -168,7 +168,7 @@ SCENARIOS: dict[str, list[Scenario]] = {
         ),
         Scenario(
             tool="send_message",
-            args={"body": "Config: AKIAIOSFODNN7EXAMPLE0"},  # pragma: allowlist secret
+            args={"body": "Config: AKIAIOSFODNN7EXAMPLE"},  # pragma: allowlist secret
             expect_blocked=True,
             label="api-key-leak-aws",
         ),
@@ -444,8 +444,8 @@ async def run_coverage() -> None:
         passed, count = category_results[category_id]
         name = CATEGORY_NAMES.get(category_id, "Unknown")
         pct = (passed / count * 100) if count else 0
-        bar = "█" * passed + "░" * (count - passed)
-        print(f"  {category_id} {name:<30s} {bar} {passed}/{count} ({pct:.0f}%)")
+        bar = "#" * passed + "-" * (count - passed)
+        print(f"  {category_id} {name:<30s} [{bar}] {passed}/{count} ({pct:.0f}%)")
 
     overall_pct = (total_pass / total_count * 100) if total_count else 0
     print("-" * 60)
@@ -453,10 +453,10 @@ async def run_coverage() -> None:
     print("=" * 60)
 
     if overall_pct < 80:
-        print("\n⚠  Overall coverage below 80% target.")
+        print("\nWARNING: Overall coverage below 80% target.")
         sys.exit(1)
     else:
-        print("\n✓  Coverage target met.")
+        print("\nPASS: Coverage target met.")
 
 
 if __name__ == "__main__":

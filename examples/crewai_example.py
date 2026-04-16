@@ -83,16 +83,16 @@ def main() -> None:
     file_tool = ShieldedFileReader()
 
     # Safe query
-    print(f"✓ {db_tool._run('SELECT * FROM orders WHERE id = 1')}")
+    print(f"[OK] {db_tool._run('SELECT * FROM orders WHERE id = 1')}")
 
     # Dangerous query — blocked
-    print(f"✗ {db_tool._run('DROP TABLE orders')}")
+    print(f"[BLOCKED] {db_tool._run('DROP TABLE orders')}")
 
     # Safe file read
-    print(f"✓ {file_tool._run('README.md')}")
+    print(f"[OK] {file_tool._run('README.md')}")
 
     # Sensitive file read — blocked
-    print(f"✗ {file_tool._run('/etc/shadow')}")
+    print(f"[BLOCKED] {file_tool._run('/etc/shadow')}")
 
 
 if __name__ == "__main__":

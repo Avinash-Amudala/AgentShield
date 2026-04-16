@@ -84,13 +84,13 @@ def main() -> None:
 
     # Safe query
     result = tool.invoke("SELECT name FROM employees WHERE id = 42")
-    print(f"✓ {result}")
+    print(f"[OK] {result}")
 
     # Dangerous query — blocked
     try:
         tool.invoke("DROP TABLE employees")
     except ToolException as exc:
-        print(f"✗ {exc}")
+        print(f"[BLOCKED] {exc}")
 
 
 if __name__ == "__main__":
