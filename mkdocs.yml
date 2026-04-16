@@ -1,0 +1,61 @@
+site_name: AgentShield
+site_description: The runtime firewall for AI agents
+site_url: https://avinash-amudala.github.io/AgentShield/
+repo_url: https://github.com/Avinash-Amudala/AgentShield
+repo_name: Avinash-Amudala/AgentShield
+
+theme:
+  name: material
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: cyan
+      toggle:
+        icon: material/brightness-7
+        name: Dark mode
+    - scheme: slate
+      primary: blue grey
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Light mode
+  features:
+    - content.code.copy
+    - content.code.annotate
+    - navigation.instant
+    - navigation.tabs
+    - navigation.sections
+    - search.highlight
+
+nav:
+  - Home: index.md
+  - Getting Started: getting-started.md
+  - Configuration: configuration.md
+  - Rules Reference: rules-reference.md
+  - Framework Adapters:
+      - Generic: adapters/generic.md
+      - MCP: adapters/mcp.md
+      - LangChain: adapters/langchain.md
+      - CrewAI: adapters/crewai.md
+      - OpenAI SDK: adapters/openai.md
+  - Dashboard: dashboard.md
+  - OWASP Mapping: owasp-mapping.md
+  - EU AI Act Mapping: eu-ai-act-mapping.md
+  - API Reference: api-reference.md
+  - Contributing: contributing.md
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          paths: [src]
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - admonition
+  - pymdownx.details

@@ -1,0 +1,271 @@
+# ==========================================================================
+# AgentShield — Complete Configuration Reference
+# ==========================================================================
+# Copy this file to your project root as `agentshield.yaml` and customise.
+# Every key shown here is optional; sensible defaults are applied when absent.
+# ==========================================================================
+
+# --------------------------------------------------------------------------
+# Global settings
+# --------------------------------------------------------------------------
+mode: enforce                 # "enforce" | "monitor" | "dry-run"
+                              #   enforce  — block denied calls (raise ToolCallBlocked)
+                              #   monitor  — log but allow everything through
+                              #   dry-run  — log + print what *would* be blocked
+
+log_file: agentshield.log    # Path to the JSON audit log (omit to disable file logging)
+dashboard_port: 8484          # Port reserved for the live dashboard (future)
+default_action: allow         # Fallback when no rule fires: "allow" | "deny" | "escalate"
+
+# --------------------------------------------------------------------------
+# Rules — each key is a rule `name`; nested keys are passed to configure()
+# --------------------------------------------------------------------------
+rules:
+
+  # ── Prompt Injection (ASI01) ───────────────────────────────────────────
+  direct_injection:
+    enabled: true
+    priority: 5
+
+  encoded_injection:
+    enabled: true
+    priority: 5
+
+  role_override:
+    enabled: true
+    priority: 5
+
+  delimiter_injection:
+    enabled: true
+    priority: 5
+
+  # ── SQL Injection (ASI02) ──────────────────────────────────────────────
+  destructive_sql:
+    enabled: true
+    priority: 10
+
+  sql_union_injection:
+    enabled: true
+    priority: 10
+
+  sql_comment_injection:
+    enabled: true
+    priority: 11
+
+  sql_admin_commands:
+    enabled: true
+    priority: 10
+
+  sql_batch_execution:
+    enabled: true
+    priority: 12
+
+  # ── Shell Command Safety (ASI02) ───────────────────────────────────────
+  destructive_shell:
+    enabled: true
+    priority: 1
+
+  reverse_shell:
+    enabled: true
+    priority: 1
+
+  privilege_escalation:
+    enabled: true
+    priority: 2
+
+  dangerous_eval:
+    enabled: true
+    priority: 2
+
+  data_exfiltration_shell:
+    enabled: true
+    priority: 3
+
+  # ── Filesystem Safety (ASI02) ──────────────────────────────────────────
+  path_traversal:
+    enabled: true
+    priority: 5
+    sandbox_dir: "."          # Absolute or relative path to the sandbox root
+
+  sensitive_file_read:
+    enabled: true
+    priority: 6
+
+  write_outside_sandbox:
+    enabled: true
+    priority: 5
+    sandbox_dir: "."
+
+  symlink_attack:
+    enabled: true
+    priority: 5
+    sandbox_dir: "."
+
+  executable_write:
+    enabled: true
+    priority: 7
+
+  # ── Network Safety (ASI04) ─────────────────────────────────────────────
+  internal_network_access:
+    enabled: true
+    priority: 20
+    block_private_ips: true   # Block 10.x, 172.16-31.x, 192.168.x, 127.x, 169.254.x
+
+  domain_denylist:
+    enabled: true
+    priority: 20
+    denied_domains:           # Domains to always block (including subdomains)
+      - evil.com
+      - malware.example.org
+
+  domain_allowlist:
+    enabled: false            # When enabled, ONLY these domains are permitted
+    priority: 20
+    allowed_domains:
+      - api.example.com
+      - cdn.example.com
+
+  dns_rebinding:
+    enabled: true
+    priority: 20
+
+  # ── Credential / Data Leak (ASI04) ─────────────────────────────────────
+  api_key_leak:
+    enabled: true
+    priority: 10
+
+  token_leak:
+    enabled: true
+    priority: 10
+
+  password_leak:
+    enabled: true
+    priority: 10
+
+  pii_leak:
+    enabled: true
+    priority: 11
+
+  env_var_leak:
+    enabled: true
+    priority: 11
+
+  # ── Scope Enforcement (ASI03 / ASI06) ──────────────────────────────────
+  tool_allowlist:
+    enabled: false            # Enable to restrict which tools agents may call
+    priority: 20
+    allowed_tools:
+      - execute_sql
+      - read_file
+      - chat
+
+  argument_schema:
+    enabled: false            # Enable to validate argument types per tool
+    priority: 21
+    expected_schemas:
+      execute_sql:
+        query: str
+      read_file:
+        path: str
+
+  cross_agent_scope:
+    enabled: false            # Enable in multi-agent systems
+    priority: 20
+    agent_scopes:
+      researcher:
+        - read_file
+        - web_search
+      executor:
+        - execute_sql
+        - shell
+
+  # ── Rate Limiting (ASI07) ──────────────────────────────────────────────
+  per_tool_rate_limit:
+    enabled: true
+    priority: 30
+    max_calls: 50             # Max calls to the same tool per window
+    window_seconds: 60.0
+
+  session_rate_limit:
+    enabled: true
+    priority: 30
+    max_calls: 500            # Max total calls per session per window
+    window_seconds: 3600.0
+
+  burst_detection:
+    enabled: true
+    priority: 30
+    max_burst: 10             # Max calls in the micro-window before escalation
+    burst_window_seconds: 1.0
+
+  # ── Cost Guardrails (ASI07) ────────────────────────────────────────────
+  session_cost_ceiling:
+    enabled: true
+    priority: 35
+    max_cost_usd: 10.00       # Hard spending cap per session
+    default_cost_usd: 0.01    # Cost assumed for unmapped tools
+    cost_per_call:             # Per-tool cost overrides
+      gpt4_completion: 0.10
+      image_generation: 0.50
+
+  cost_alert:
+    enabled: true
+    priority: 36
+    max_cost_usd: 10.00
+    alert_threshold: 0.80     # Escalate once session reaches 80% of ceiling
+    default_cost_usd: 0.01
+    cost_per_call:
+      gpt4_completion: 0.10
+      image_generation: 0.50
+
+  # ── Human-in-the-Loop Approval (ASI09) ─────────────────────────────────
+  require_approval_pattern:
+    enabled: true
+    priority: 40
+    patterns:                 # Glob patterns — matched tools require approval
+      - "deploy_*"
+      - "delete_prod_*"
+      - "drop_*"
+      - "destroy_*"
+
+  require_approval_financial:
+    enabled: true
+    priority: 40
+    threshold_usd: 100.00     # Amounts above this trigger approval
+    monetary_arg_keys:
+      - amount
+      - price
+      - cost
+      - total
+      - payment
+
+  require_approval_data_export:
+    enabled: true
+    priority: 40
+    max_rows: 1000            # Row counts above this trigger approval
+    export_tool_patterns:
+      - "export_*"
+      - "download_*"
+      - "dump_*"
+      - "extract_*"
+      - "bulk_read_*"
+
+  # ── Custom Pattern Rules ───────────────────────────────────────────────
+  # Define zero-code rules using glob patterns on tool names.
+  # custom_rules:
+  #   - name: block_admin_tools
+  #     description: Block any tool prefixed with admin_
+  #     tool_patterns:
+  #       - "admin_*"
+  #     action: deny
+  #     reason: "Admin tools require elevated permissions"
+  #     priority: 15
+  #
+  #   - name: escalate_billing
+  #     description: Require review for billing operations
+  #     tool_patterns:
+  #       - "billing_*"
+  #       - "invoice_*"
+  #     action: escalate
+  #     reason: "Billing operations require human review"
+  #     priority: 25

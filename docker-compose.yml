@@ -1,0 +1,22 @@
+version: "3.9"
+services:
+  my-agent:
+    build: ./my-agent
+    environment:
+      AGENTSHIELD_URL: http://shield:8080
+    depends_on:
+      - shield
+
+  shield:
+    image: ghcr.io/avinash-amudala/agentshield:latest
+    volumes:
+      - ./agentshield.yaml:/etc/agentshield/config.yaml
+      - shield-logs:/var/log/agentshield
+    ports:
+      - "9090:9090"
+    environment:
+      AGENTSHIELD_MODE: enforce
+      AGENTSHIELD_LOG_FILE: /var/log/agentshield/shield.jsonl
+
+volumes:
+  shield-logs:
