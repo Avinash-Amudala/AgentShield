@@ -238,7 +238,7 @@ def register_routes(app: FastAPI, dashboard: DashboardApp) -> None:
 
     @app.get("/api/export")
     async def export_audit(
-        format: str = Query("csv", regex="^(csv|json)$"),
+        format: str = Query("csv", pattern="^(csv|json)$"),
     ) -> Response:
         """Export the audit log as CSV or JSON.
 
